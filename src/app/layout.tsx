@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { inter } from "./fonts";
 
 export const metadata: Metadata = {
   title: "Handcrafted Haven",
@@ -13,7 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body
+        className={`min-h-full flex flex-col ${inter.className} antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
