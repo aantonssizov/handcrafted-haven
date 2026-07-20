@@ -11,5 +11,8 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
   }
 }
