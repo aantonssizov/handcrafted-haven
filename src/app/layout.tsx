@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "./fonts";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Handcrafted Haven",
@@ -17,7 +19,34 @@ export default function RootLayout({
       <body
         className={`min-h-full flex flex-col ${inter.className} antialiased`}
       >
+        <header>
+          <div className="logo">
+            <Image
+              className="h-auto"
+              alt="logo"
+              src="/images/logo.webp"
+              width={64}
+              height={64}
+              loading="eager"
+            />
+            <span className="title">Handcrafted Haven</span>
+          </div>
+          <nav>
+            <ul>
+              <li>
+                <Link href="#">Artists</Link>
+              </li>
+              <li>
+                <Link href="#">Product Listings</Link>
+              </li>
+              <li>
+                <Link href="#">Login</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
         {children}
+        <footer></footer>
       </body>
     </html>
   );
