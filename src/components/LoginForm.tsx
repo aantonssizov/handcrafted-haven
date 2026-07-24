@@ -1,16 +1,43 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "../lib/auth/auth-context";
+import { UserRole } from "../lib/auth/roles";
 
 export default function LoginForm() {
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [role, setRole] = useState<UserRole>(UserRole.CUSTOMER);
   const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setMessage(`Ready to login with ${email}. This is a frontend-only demo.`);
+
+    setMessage(null);
+    setError(null);
+
+    if (!email || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+
+    const user = {
+      id: "demo-user-1",
+      name: "Demo User",
+      email,
+      role,
+    };
+
+    const demoAccessToken = "demo-access-token";
+
+    login(user, demoAccessToken, remember);
+
+    setMessage(`You have been logged in as ${role}.`);
   };
 
   return (
@@ -19,11 +46,13 @@ export default function LoginForm() {
         <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold-soft">
           Member login
         </p>
+
         <h2 className="mt-4 text-3xl font-semibold text-white">
           Sign in to your account
         </h2>
+
         <p className="mt-3 text-sm leading-6 text-slate-300">
-          Use this frontend-only form to preview how login will feel on the landing page.
+          Sign in to your Handcrafted Haven account.
         </p>
       </div>
 
@@ -35,8 +64,10 @@ export default function LoginForm() {
           <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white">
             G
           </span>
+
           Continue with Google
         </button>
+
         <div className="flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-slate-500">
           <span className="h-px flex-1 bg-white/10" />
           or
@@ -47,6 +78,7 @@ export default function LoginForm() {
       <form className="space-y-5" onSubmit={handleSubmit}>
         <label className="block text-sm font-medium text-slate-200">
           Email
+
           <input
             type="email"
             value={email}
@@ -59,6 +91,7 @@ export default function LoginForm() {
 
         <label className="block text-sm font-medium text-slate-200">
           Password
+
           <input
             type="password"
             value={password}
@@ -69,6 +102,22 @@ export default function LoginForm() {
           />
         </label>
 
+        <label className="block text-sm font-medium text-slate-200">
+          Test Role
+
+          <select
+            value={role}
+            onChange={(event) =>
+              setRole(event.target.value as UserRole)
+            }
+            className="mt-2 w-full rounded-3xl border border-white/10 bg-slate-900 px-4 py-3 text-sm text-white outline-none focus:border-gold-bold focus:ring-2 focus:ring-gold-soft/30"
+          >
+            <option value={UserRole.CUSTOMER}>Customer</option>
+            <option value={UserRole.SELLER}>Seller</option>
+            <option value={UserRole.ADMIN}>Admin</option>
+          </select>
+        </label>
+
         <div className="flex items-center justify-between gap-4 text-sm text-slate-300">
           <label className="inline-flex items-center gap-2">
             <input
@@ -77,9 +126,14 @@ export default function LoginForm() {
               onChange={(event) => setRemember(event.target.checked)}
               className="h-4 w-4 rounded border-white/20 bg-slate-900 text-gold-bold focus:ring-gold-soft"
             />
+
             Remember me
           </label>
-          <button type="button" className="text-gold-soft hover:text-gold-bold">
+
+          <button
+            type="button"
+            className="text-gold-soft hover:text-gold-bold"
+          >
             Forgot password?
           </button>
         </div>
@@ -92,20 +146,29 @@ export default function LoginForm() {
         </button>
       </form>
 
-      <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-4 text-center text-sm text-slate-300">
-        <p>
-          Don&apos;t have an account?{' '}
-          <button type="button" className="font-semibold text-gold-soft hover:text-gold-bold">
-            Create account
-          </button>
-        </p>
-      </div>
+      {error && (
+        <div className="rounded-3xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-300">
+          {error}
+        </div>
+      )}
 
-      {message ? (
+      {message && (
         <div className="rounded-3xl border border-green-soft/20 bg-green-soft/10 p-4 text-sm text-green-soft">
           {message}
         </div>
-      ) : null}
+      )}
+
+      <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-4 text-center text-sm text-slate-300">
+        <p>
+          Don&apos;t have an account?{" "}
+          <Link
+            href="/register"
+            className="font-semibold text-gold-soft hover:text-gold-bold"
+          >
+            Create account
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
