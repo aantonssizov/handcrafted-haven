@@ -3,7 +3,6 @@ import "./globals.css";
 import { heading, inter } from "./fonts";
 import Image from "next/image";
 import Link from "next/link";
-import { AuthProvider } from "../lib/auth/auth-context";
 
 export const metadata: Metadata = {
   title: "Handcrafted Haven",
@@ -20,47 +19,59 @@ export default function RootLayout({
       <body
         className={`min-h-full flex flex-col ${inter.className} antialiased`}
       >
-        <AuthProvider>
-          <header className="flex items-center justify-between gap-6 p-4">
-            <Link href="/" className="logo flex items-center gap-3 transition hover:opacity-80">
-              <Image
-                className="h-auto"
-                alt="logo"
-                src="/images/logo.webp"
-                width={64}
-                height={64}
-                loading="eager"
-              />
-              <span className={`title text-[32px] font-black text-[#1B5E20] ${heading.className}`}>
-                Handcrafted Haven
-              </span>
-            </Link>
+        <header className="flex items-center justify-between gap-6 p-4">
+          <Link
+            href="/"
+            className="logo flex items-center gap-3 transition hover:opacity-80"
+          >
+            <Image
+              className="h-auto"
+              alt="logo"
+              src="/images/logo.webp"
+              width={64}
+              height={64}
+              loading="eager"
+            />
+            <span
+              className={`title text-[32px] font-black text-[#1B5E20] ${heading.className}`}
+            >
+              Handcrafted Haven
+            </span>
+          </Link>
 
-            <nav className="rounded-[5px] border border-[#A5D6A7] bg-[#A5D6A7]/10 px-4 py-3">
-              <ul className="flex items-center gap-4 text-sm font-medium text-slate-950">
-                <li>
-                  <Link href="#" className="font-sans font-semibold text-slate-950">
-                    Artists
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="font-sans font-semibold text-slate-950">
-                    Product Listings
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login" className="font-sans font-semibold text-slate-950">
-                    Login
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </header>
+          <nav className="rounded-[5px] border border-[#A5D6A7] bg-[#A5D6A7]/10 px-4 py-3">
+            <ul className="flex items-center gap-4 text-sm font-medium text-slate-950">
+              <li>
+                <Link
+                  href="#"
+                  className="font-sans font-semibold text-slate-950"
+                >
+                  Artists
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="font-sans font-semibold text-slate-950"
+                >
+                  Product Listings
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/login"
+                  className="font-sans font-semibold text-slate-950"
+                >
+                  Login
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
 
-          {children}
+        {children}
 
-          <footer></footer>
-        </AuthProvider>
+        <footer></footer>
       </body>
     </html>
   );

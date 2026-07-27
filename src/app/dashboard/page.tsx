@@ -1,13 +1,13 @@
-"use client";
-
 import Link from "next/link";
-import { useAuth } from "../../lib/auth/auth-context";
-import { UserRole } from "../../lib/auth/roles";
+import { UserRole } from "@/lib/models/roles";
+import { verifySession } from "@/lib/dal";
+import { getUser } from "@/actions/user";
+import { logout } from "@/actions/auth";
 
-export default function DashboardPage() {
-  const { user, isAuthenticated, logout } = useAuth();
+export default async function DashboardPage() {
+  const session = await verifySession();
 
-  if (!isAuthenticated || !user) {
+  if (!session.isAuth || !session.userId) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-slate-950 px-6 text-slate-100">
         <div className="w-full max-w-md rounded-3xl border border-white/10 bg-slate-900 p-8 text-center">
@@ -28,6 +28,8 @@ export default function DashboardPage() {
     );
   }
 
+  const user = await getUser(session.userId);
+
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
       <div className="mx-auto max-w-4xl">
@@ -37,9 +39,7 @@ export default function DashboardPage() {
               Dashboard
             </p>
 
-            <h1 className="mt-3 text-4xl font-bold">
-              Welcome, {user.name}
-            </h1>
+            <h1 className="mt-3 text-4xl font-bold">Welcome, {user.name}</h1>
           </div>
 
           <button

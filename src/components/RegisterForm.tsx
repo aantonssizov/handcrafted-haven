@@ -1,29 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { signup } from "@/actions/auth";
+import { UserRole } from "@/lib/models/roles";
+import { useActionState } from "react";
 
 export default function RegisterForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("customer");
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
-    console.log({
-      name,
-      email,
-      password,
-      role,
-    });
-  };
+  const [state, action, pending] = useActionState(signup, undefined);
 
   return (
     <div className="space-y-6">
@@ -41,13 +23,16 @@ export default function RegisterForm() {
         </p>
       </div>
 
-      <form className="space-y-5" onSubmit={handleSubmit}>
+      <form className="space-y-5" action={action}>
+        {state && (
+          <p className="mt-3 text-sm leading-6 text-slate-300">{state}</p>
+        )}
+
         <label className="block text-sm font-medium text-slate-200">
           Full name
           <input
             type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            name="name"
             required
             className="mt-2 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
             placeholder="Your full name"
@@ -58,8 +43,7 @@ export default function RegisterForm() {
           Email
           <input
             type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            name="email"
             required
             className="mt-2 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
             placeholder="you@example.com"
@@ -69,12 +53,11 @@ export default function RegisterForm() {
         <label className="block text-sm font-medium text-slate-200">
           Account type
           <select
-            value={role}
-            onChange={(event) => setRole(event.target.value)}
+            name="role"
             className="mt-2 w-full rounded-3xl border border-white/10 bg-slate-900 px-4 py-3 text-sm text-white outline-none"
           >
-            <option value="customer">Customer</option>
-            <option value="seller">Seller</option>
+            <option value={UserRole.CUSTOMER}>Customer</option>
+            <option value={UserRole.SELLER}>Seller</option>
           </select>
         </label>
 
@@ -82,8 +65,7 @@ export default function RegisterForm() {
           Password
           <input
             type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            name="password"
             required
             minLength={6}
             className="mt-2 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
@@ -91,21 +73,9 @@ export default function RegisterForm() {
           />
         </label>
 
-        <label className="block text-sm font-medium text-slate-200">
-          Confirm password
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            required
-            minLength={6}
-            className="mt-2 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
-            placeholder="Confirm your password"
-          />
-        </label>
-
         <button
           type="submit"
+          disabled={pending}
           className="w-full rounded-3xl bg-gold-bold px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-gold-soft"
         >
           Create account

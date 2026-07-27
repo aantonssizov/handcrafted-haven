@@ -1,4 +1,5 @@
-import RegisterForm from "../../components/RegisterForm";
+import RegisterForm from "@/components/RegisterForm";
+
 export default function RegisterPage() {
   return (
     <main className="min-h-screen bg-white px-6 py-12 text-slate-900">
