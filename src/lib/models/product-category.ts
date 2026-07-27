@@ -1,3 +1,5 @@
+// TODO: Rewrite to simple string enum
+
 export const ProductCategories = [
   "textile",
   "pottery",

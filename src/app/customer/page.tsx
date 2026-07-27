@@ -1,7 +1,7 @@
 "use client";
 
 import RoleGuard from "../../components/RoleGuard";
-import { UserRole } from "../../lib/auth/roles";
+import { UserRole } from "../../lib/models/roles";
 
 export default function CustomerPage() {
   return (

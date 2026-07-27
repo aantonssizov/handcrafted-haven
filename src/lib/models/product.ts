@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
-import { ProductCategories, ProductCategory } from "./product-category";
-import { ProductReview, ProductReviewSchema } from "./product-review";
+import {
+  ProductCategories,
+  ProductCategory,
+} from "@/lib/models/product-category";
+import {
+  ProductReview,
+  ProductReviewSchema,
+} from "@/lib/models/product-review";
 
 interface Product {
   name: string;
