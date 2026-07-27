@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { ProductCategories, ProductCategory } from "./product-category";
+import { ProductReview, ProductReviewSchema } from "./product-review";
 
 interface Product {
   name: string;
@@ -7,8 +8,9 @@ interface Product {
   price: number;
   category: ProductCategory;
   amountSold: number;
-  picture: string;
-  // seller
+  pictureUrl: string;
+  // seller,
+  reviews: ProductReview[];
 }
 
 const ProductSchema = new mongoose.Schema<Product>(
@@ -22,7 +24,8 @@ const ProductSchema = new mongoose.Schema<Product>(
     },
     amountSold: Number,
     // seller
-    picture: String,
+    pictureUrl: String,
+    reviews: [ProductReviewSchema],
   },
   { timestamps: true },
 );
