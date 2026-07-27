@@ -1,4 +1,4 @@
-import "server-only";
+"use server";
 
 import { getSession } from "@/lib/session";
 import { cache } from "react";

@@ -1,5 +1,3 @@
-"use client";
-
 import RoleGuard from "@/components/RoleGuard";
 import { UserRole } from "@/lib/models/roles";
 
