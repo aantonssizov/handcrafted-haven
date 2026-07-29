@@ -56,8 +56,8 @@ export default function RegisterForm() {
             name="role"
             className="mt-2 w-full rounded-3xl border border-white/10 bg-slate-900 px-4 py-3 text-sm text-white outline-none"
           >
-            <option value={UserRole.CUSTOMER}>Customer</option>
-            <option value={UserRole.SELLER}>Seller</option>
+            <option value={UserRole.Customer}>Customer</option>
+            <option value={UserRole.Seller}>Seller</option>
           </select>
         </label>
 

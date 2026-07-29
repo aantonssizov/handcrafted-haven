@@ -1,35 +1,43 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId, Schema, Types } from "mongoose";
+import { ProductCategory } from "@/lib/models/product-category";
 import {
-  ProductCategories,
-  ProductCategory,
-} from "@/lib/models/product-category";
-import {
-  ProductReview,
+  IProductReview,
   ProductReviewSchema,
 } from "@/lib/models/product-review";
+import { getUser } from "@/actions/user";
+import { UserRole } from "@/lib/models/roles";
+import { IUser } from "@/lib/models/user";
 
-interface Product {
+export interface IProduct {
   name: string;
   description?: string;
   price: number;
   category: ProductCategory;
   amountSold: number;
   pictureUrl: string;
-  // seller,
-  reviews: ProductReview[];
+  seller: Types.ObjectId | IUser;
+  reviews: IProductReview[];
 }
 
-const ProductSchema = new mongoose.Schema<Product>(
+const ProductSchema = new mongoose.Schema<IProduct>(
   {
     name: { type: String, required: true },
     description: String,
     price: Number,
     category: {
       type: String,
-      enum: ProductCategories,
+      enum: Object.values(ProductCategory),
     },
     amountSold: Number,
-    // seller
+    seller: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      validate: async (v: ObjectId) => {
+        const user = await getUser(v);
+
+        return user.role === UserRole.Seller;
+      },
+    },
     pictureUrl: String,
     reviews: [ProductReviewSchema],
   },

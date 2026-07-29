@@ -60,7 +60,7 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        {user.role === UserRole.CUSTOMER && (
+        {user.role === UserRole.Customer && (
           <div className="mt-6 rounded-3xl border border-white/10 bg-slate-900 p-8">
             <h2 className="text-2xl font-bold">Customer Area</h2>
 
@@ -70,7 +70,7 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        {user.role === UserRole.SELLER && (
+        {user.role === UserRole.Seller && (
           <div className="mt-6 rounded-3xl border border-white/10 bg-slate-900 p-8">
             <h2 className="text-2xl font-bold">Seller Area</h2>
 
@@ -80,7 +80,7 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        {user.role === UserRole.ADMIN && (
+        {user.role === UserRole.Admin && (
           <div className="mt-6 rounded-3xl border border-white/10 bg-slate-900 p-8">
             <h2 className="text-2xl font-bold">Admin Area</h2>
 

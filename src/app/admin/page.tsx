@@ -3,7 +3,7 @@ import { UserRole } from "@/lib/models/roles";
 
 export default function AdminPage() {
   return (
-    <RoleGuard allowedRoles={[UserRole.ADMIN]}>
+    <RoleGuard allowedRoles={[UserRole.Admin]}>
       <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
         <div className="mx-auto max-w-4xl">
           <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">
