@@ -10,65 +10,67 @@ export default function RegisterForm() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold-soft">
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-green-bold">
           Join Handcrafted Haven
         </p>
 
-        <h2 className="mt-4 text-3xl font-semibold text-white">
+        <h2 className="mt-4 text-3xl font-semibold text-slate-900">
           Create your account
         </h2>
 
-        <p className="mt-3 text-sm leading-6 text-slate-300">
+        <p className="mt-3 text-sm leading-6 text-slate-600">
           Create an account as a customer or seller.
         </p>
       </div>
 
       <form className="space-y-5" action={action}>
         {state && (
-          <p className="mt-3 text-sm leading-6 text-slate-300">{state}</p>
+          <div className="rounded-3xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-700">
+            {state}
+          </div>
         )}
 
-        <label className="block text-sm font-medium text-slate-200">
+        <label className="block text-sm font-medium text-slate-900">
           Full name
           <input
             type="text"
             name="name"
             required
-            className="mt-2 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
+            className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
             placeholder="Your full name"
           />
         </label>
 
-        <label className="block text-sm font-medium text-slate-200">
+        <label className="block text-sm font-medium text-slate-900">
           Email
           <input
             type="email"
             name="email"
             required
-            className="mt-2 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
+            className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
             placeholder="you@example.com"
           />
         </label>
 
-        <label className="block text-sm font-medium text-slate-200">
+        <label className="block text-sm font-medium text-slate-900">
           Account type
           <select
             name="role"
-            className="mt-2 w-full rounded-3xl border border-white/10 bg-slate-900 px-4 py-3 text-sm text-white outline-none"
+            className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
           >
             <option value={UserRole.Customer}>Customer</option>
             <option value={UserRole.Seller}>Seller</option>
           </select>
         </label>
 
-        <label className="block text-sm font-medium text-slate-200">
+        <label className="block text-sm font-medium text-slate-900">
           Password
           <input
             type="password"
             name="password"
             required
             minLength={6}
-            className="mt-2 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
+            className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
             placeholder="Create a password"
           />
         </label>

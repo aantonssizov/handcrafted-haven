@@ -59,6 +59,14 @@ export default function RootLayout({
               </li>
               <li>
                 <Link
+                  href="/seller"
+                  className="font-sans font-semibold text-slate-950"
+                >
+                  Seller Profile
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/login"
                   className="font-sans font-semibold text-slate-950"
                 >

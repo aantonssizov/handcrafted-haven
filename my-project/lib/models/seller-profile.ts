@@ -1,7 +1,7 @@
 import mongoose, { ObjectId, Schema, Types } from "mongoose";
 import { IUser } from "@/lib/models/user";
-import { getUser } from "@/actions/user";
 import { UserRole } from "@/lib/models/roles";
+import { getUser } from "@/actions/user";
 
 export interface ISellerProfile {
   seller: Types.ObjectId | IUser;
@@ -22,7 +22,6 @@ const SellerProfileSchema = new mongoose.Schema<ISellerProfile>(
       ref: "User",
       validate: async (v: ObjectId) => {
         const user = await getUser(v);
-
         return user.role === UserRole.Seller;
       },
     },
