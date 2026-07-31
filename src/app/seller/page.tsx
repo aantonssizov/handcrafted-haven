@@ -1,4 +1,5 @@
-import RoleGuard from "@/components/RoleGuard";
+import RoleGuard from "../../../components/RoleGuard";
+import SellerProfileForm from "../../../components/SellerProfileForm";
 import { UserRole } from "@/lib/models/roles";
 
 export default function SellerPage() {
@@ -10,13 +11,13 @@ export default function SellerPage() {
             Seller Area
           </p>
 
-          <h1 className="mt-4 text-4xl font-bold">
-            Welcome to your seller area
-          </h1>
+          <h1 className="mt-4 text-4xl font-bold">Create your seller profile</h1>
 
           <p className="mt-4 text-slate-300">
-            Manage your seller profile, products, and listings.
+            Add your name, bio, location, avatar, social links, and product list.
           </p>
+
+          <SellerProfileForm />
         </div>
       </main>
     </RoleGuard>

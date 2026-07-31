@@ -1,18 +1,18 @@
 import mongoose, { ObjectId, Schema, Types } from "mongoose";
 import { IUser } from "@/lib/models/user";
-import { getUser } from "@/actions/user";
+import { getUser } from "../../../backend/src/actions/user";
 import { UserRole } from "@/lib/models/roles";
 
 export interface ISellerProfile {
   seller: Types.ObjectId | IUser;
+  name?: string;
   bio?: string;
   location?: string;
   avatarUrl?: string;
   experienceYears?: number;
   website?: string;
   instagram?: string;
-  // Products list
-  // TODO decide on products list
+  productList?: string[];
 }
 
 const SellerProfileSchema = new mongoose.Schema<ISellerProfile>(
@@ -26,11 +26,14 @@ const SellerProfileSchema = new mongoose.Schema<ISellerProfile>(
         return user.role === UserRole.Seller;
       },
     },
+    name: String,
     bio: String,
     location: String,
+    avatarUrl: String,
     experienceYears: Number,
     website: String,
     instagram: String,
+    productList: [String],
   },
   { timestamps: true },
 );

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { UserRole } from "@/lib/models/roles";
 import { verifySession } from "@/lib/dal";
-import { getUser } from "@/actions/user";
-import { logout } from "@/actions/auth";
+import { getUser } from "../../user";
+import { logout } from "../../auth";
 
 export default async function DashboardPage() {
   const session = await verifySession();

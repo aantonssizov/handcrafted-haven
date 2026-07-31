@@ -4,7 +4,7 @@ import {
   IProductReview,
   ProductReviewSchema,
 } from "@/lib/models/product-review";
-import { getUser } from "@/actions/user";
+import { getUser } from "../../../backend/src/actions/user";
 import { UserRole } from "@/lib/models/roles";
 import { IUser } from "@/lib/models/user";
 

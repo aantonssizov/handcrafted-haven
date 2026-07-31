@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { heading } from "@/app/fonts";
+import { heading } from "./fonts";
 import heroImage from "./assets/images/handcrafted-haven-hero.jpg";
 import artisanImage from "./assets/images/handcrafted-haven-artisans.jpg";
 import customerImage from "./assets/images/handcrafted-haven-costomers.jpg";
