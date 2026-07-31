@@ -1,5 +1,5 @@
-import RoleGuard from "@/components/RoleGuard";
-import SellerProfileForm from "@/components/SellerProfileForm";
+import RoleGuard from "../../../components/RoleGuard";
+import SellerProfileForm from "../../../components/SellerProfileForm";
 import { UserRole } from "@/lib/models/roles";
 
 export default function SellerPage() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { createOrUpdateSellerProfile } from "@/actions/seller-profile";
+import { createOrUpdateSellerProfile } from "../../backend/src/actions/seller-profile";
 
 export default function SellerProfileForm() {
   const [state, action, pending] = useActionState(

@@ -1,6 +1,6 @@
 "use client";
 
-import { signup } from "@/actions/auth";
+import { signup } from "../actions/auth";
 import { UserRole } from "@/lib/models/roles";
 import { useActionState } from "react";
 

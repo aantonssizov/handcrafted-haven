@@ -1,4 +1,4 @@
-import SellerProfileForm from "@/components/SellerProfileForm";
+import SellerProfileForm from "../../../backend/src/components/SellerProfileForm";
 
 export default function SellerPage() {
   return (

@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { useEffect, useId, useState } from "react";
-import { createOrUpdateSellerProfile } from "@/actions/seller-profile";
+import { createOrUpdateSellerProfile } from "../actions/seller-profile";
 
 export default function SellerProfileForm() {
   const [state, action, pending] = useActionState(
