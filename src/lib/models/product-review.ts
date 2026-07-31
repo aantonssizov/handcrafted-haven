@@ -2,9 +2,11 @@ import mongoose, { ObjectId, Schema, Types } from "mongoose";
 import { IUser } from "@/lib/models/user";
 import { getUser } from "@/actions/user";
 import { UserRole } from "@/lib/models/roles";
+import { IProduct } from "@/lib/models/product";
 
 export interface IProductReview {
   customer: Types.ObjectId | IUser;
+  product: Types.ObjectId | IProduct;
   rating: number;
   review?: string;
 }
@@ -19,6 +21,10 @@ export const ProductReviewSchema = new mongoose.Schema<IProductReview>(
 
         return user.role === UserRole.Customer;
       },
+    },
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
     },
     rating: { type: Number, min: 0, max: 5, required: true },
     review: String,

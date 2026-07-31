@@ -6,9 +6,8 @@ import Product from "@/lib/models/product";
 import { ProductCategory } from "@/lib/models/product-category";
 
 export async function getAll() {
-  await dbConnect();
-
   try {
+    await dbConnect();
     const products = await Product.find({});
     return products;
   } catch (err) {
@@ -17,9 +16,8 @@ export async function getAll() {
 }
 
 export async function get(id: ObjectId) {
-  await dbConnect();
-
   try {
+    await dbConnect();
     const product = await Product.findOne({ _id: id });
     return product;
   } catch (err) {
@@ -36,8 +34,6 @@ export async function create(
   pictureUrl: string,
   seller: ObjectId,
 ) {
-  await dbConnect();
-
   let product = new Product({
     name,
     description,
@@ -49,6 +45,8 @@ export async function create(
   });
 
   try {
+    await dbConnect();
+
     product = await product.save();
   } catch (err) {
     throw err;
@@ -69,9 +67,8 @@ export async function update(
   amountSold?: number,
   pictureUrl?: string,
 ) {
-  await dbConnect();
-
   try {
+    await dbConnect();
     const product = await Product.findByIdAndUpdate(
       id,
       {
