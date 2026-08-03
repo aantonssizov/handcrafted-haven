@@ -15,10 +15,24 @@ export async function getAll() {
   }
 }
 
+export async function getAllBySeller(sellerId: ObjectId) {
+  try {
+    await dbConnect();
+    const products = await Product.find({
+      seller: sellerId,
+    });
+    return products;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function get(id: ObjectId) {
   try {
     await dbConnect();
-    const product = await Product.findOne({ _id: id });
+    const product = await Product.findOne({ _id: id })
+      .populate("reviews")
+      .exec();
     return product;
   } catch (err) {
     throw err;
