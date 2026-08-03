@@ -2,11 +2,12 @@
 
 import dbConnect from "@/lib/mongodb";
 import SellerProfile from "@/lib/models/seller-profile";
-import { UserRole } from "@/lib/models/roles";
 import { getSession } from "@/lib/session";
+import { UserRole } from "@/lib/models/roles";
+import { put } from "@vercel/blob";
 
 export async function createOrUpdateSellerProfile(
-  _previousState: string | undefined,
+  prevState: string | undefined,
   formData: FormData,
 ) {
   const session = await getSession();
@@ -19,51 +20,25 @@ export async function createOrUpdateSellerProfile(
     return "Only sellers can create a seller profile.";
   }
 
-  const avatar = formData.get("avatar");
+  await dbConnect();
 
-  if (avatar instanceof File && avatar.size > 2 * 1024 * 1024) {
-    return "Please choose an image smaller than 2 MB.";
-  }
+  const imageFile = formData.get("avatar") as File;
+  const blob = await put(imageFile.name, imageFile, {
+    access: "public",
+    addRandomSuffix: true,
+  });
 
-  if (avatar instanceof File && avatar.size > 0 && !avatar.type.startsWith("image/")) {
-    return "Please choose an image file.";
-  }
-
-  const profileData: {
-    seller: typeof session.userId;
-    name: string;
-    bio: string;
-    location: string;
-    experienceYears: number;
-    website: string;
-    instagram: string;
-    productList: string[];
-    avatarUrl?: string;
-  } = {
+  const profileData = {
     seller: session.userId,
-    name: String(formData.get("name") || "").trim(),
     bio: String(formData.get("bio") || "").trim(),
     location: String(formData.get("location") || "").trim(),
+    avatarUrl: blob.url,
     experienceYears: Number(formData.get("experienceYears") || 0),
     website: String(formData.get("website") || "").trim(),
     instagram: String(formData.get("instagram") || "").trim(),
-    productList: String(formData.get("productList") || "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean),
   };
 
-  if (!profileData.name) {
-    return "Please enter a seller name.";
-  }
-
-  if (avatar instanceof File && avatar.size > 0) {
-    const imageData = Buffer.from(await avatar.arrayBuffer()).toString("base64");
-    profileData.avatarUrl = `data:${avatar.type};base64,${imageData}`;
-  }
-
   try {
-    await dbConnect();
     await SellerProfile.findOneAndUpdate(
       { seller: session.userId },
       { $set: profileData },

@@ -7,8 +7,6 @@ import { redirect } from "next/navigation";
 export const verifySession = cache(async () => {
   const session = await getSession();
 
-  console.log(session);
-
   if (!session.userId) {
     redirect("/login");
   }
