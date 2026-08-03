@@ -4,6 +4,7 @@ import dbConnect from "@/lib/mongodb";
 import SellerProfile from "@/lib/models/seller-profile";
 import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
+import { put } from "@vercel/blob";
 
 export async function createOrUpdateSellerProfile(
   prevState: string | undefined,
@@ -21,24 +22,21 @@ export async function createOrUpdateSellerProfile(
 
   await dbConnect();
 
+  const imageFile = formData.get("avatar") as File;
+  const blob = await put(imageFile.name, imageFile, {
+    access: "public",
+    addRandomSuffix: true,
+  });
+
   const profileData = {
     seller: session.userId,
-    name: String(formData.get("name") || "").trim(),
     bio: String(formData.get("bio") || "").trim(),
     location: String(formData.get("location") || "").trim(),
-    avatarUrl: String(formData.get("avatarUrl") || "").trim(),
+    avatarUrl: blob.url,
     experienceYears: Number(formData.get("experienceYears") || 0),
     website: String(formData.get("website") || "").trim(),
     instagram: String(formData.get("instagram") || "").trim(),
-    productList: String(formData.get("productList") || "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean),
   };
-
-  if (!profileData.name) {
-    return "Please enter a seller name.";
-  }
 
   try {
     await SellerProfile.findOneAndUpdate(

@@ -32,12 +32,6 @@ export default function SellerProfileForm() {
     >
       <div className="grid gap-5 md:grid-cols-2">
         <Field
-          label="Name"
-          name="name"
-          required
-          placeholder="Your business or full name"
-        />
-        <Field
           label="Location"
           name="location"
           placeholder="Cape Town, South Africa"
@@ -106,15 +100,6 @@ export default function SellerProfileForm() {
           rows={4}
           className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
           placeholder="Tell buyers about your craft and story"
-        />
-      </label>
-      <label className="block text-sm font-medium text-slate-200">
-        Product list
-        <textarea
-          name="productList"
-          rows={3}
-          className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
-          placeholder="Comma-separated products, e.g. Candles, Pottery, Leather bags"
         />
       </label>
 
