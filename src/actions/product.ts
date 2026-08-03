@@ -27,6 +27,19 @@ export async function getAllBySeller(sellerId: ObjectId) {
   }
 }
 
+export async function getByFilter(price?: number, category?: ProductCategory) {
+  try {
+    await dbConnect();
+    const products = await Product.find({
+      price,
+      category,
+    });
+    return products;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function get(id: ObjectId) {
   try {
     await dbConnect();
