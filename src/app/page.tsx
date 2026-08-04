@@ -16,7 +16,7 @@ export default function Home() {
         <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-14 px-6 py-12 pb-15 sm:px-10 lg:px-10">
           <div className="max-w-2xl space-y-6">
             <h1
-              className={`mt-6 text-5xl font-black tracking-tight text-[#1B5E20] sm:text-6xl ${heading.className}`}
+              className={`mt-6 text-5xl font-black tracking-tight text-gold-bold sm:text-6xl ${heading.className}`}
             >
               Revolutionary Platform for Artisans
             </h1>
