@@ -144,7 +144,7 @@ export default function Page() {
                 “As a full-time artisan, I wanted a place where people truly
                 appreciate handmade work. This app made it easy to showcase my
                 products, manage my orders, and connect with customers who value
-                craftsmanship. I’ve seen both my sales and confidence grow.”
+                craftsmanship. I`ve seen both my sales and confidence grow.”
               </p>
               <div className="mt-6 flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1B5E20]/10 text-[#1B5E20]">
