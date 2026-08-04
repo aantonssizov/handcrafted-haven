@@ -4,7 +4,7 @@ import heroImage from "../../public/images/handcrafted-haven-hero.jpg";
 import artisanImage from "../../public/images/handcrafted-haven-artisans.jpg";
 import customerImage from "../../public/images/handcrafted-haven-costomers.jpg";
 
-export default function Home() {
+export default function Page() {
   return (
     <main className="text-slate-900">
       <section className="relative min-h-screen text-white">

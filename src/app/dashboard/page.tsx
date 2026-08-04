@@ -4,7 +4,7 @@ import { getUser } from "@/actions/user";
 import { logout } from "@/actions/auth";
 import Link from "next/link";
 
-export default async function DashboardPage() {
+export default async function Page() {
   const session = await verifySession();
   const user = await getUser(session.userId);
 

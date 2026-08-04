@@ -2,7 +2,7 @@ import RoleGuard from "@/components/RoleGuard";
 import SellerProfileForm from "@/components/SellerProfileForm";
 import { UserRole } from "@/lib/models/roles";
 
-export default function SellerPage() {
+export default function Page() {
   return (
     <RoleGuard allowedRoles={[UserRole.Seller]}>
       <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
