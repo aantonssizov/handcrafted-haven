@@ -4,6 +4,7 @@ import { getUser } from "@/actions/user";
 import { UserRole } from "@/lib/models/roles";
 
 export interface ISellerProfile {
+  _id: ObjectId;
   seller: Types.ObjectId | IUser;
   bio?: string;
   location?: string;

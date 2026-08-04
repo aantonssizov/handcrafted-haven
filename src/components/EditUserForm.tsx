@@ -1,27 +1,19 @@
 "use client";
 
-import { signup } from "@/actions/auth";
+import { edit } from "@/actions/user";
 import { UserRole } from "@/lib/models/roles";
+import { IUserClient } from "@/lib/models/user";
 import { useActionState } from "react";
 
-export default function RegisterForm() {
-  const [state, action, pending] = useActionState(signup, undefined);
+export default function EditUserForm({ user }: { user: IUserClient }) {
+  const editWithId = edit.bind(null, user._id);
+  const [state, action, pending] = useActionState(editWithId, undefined);
 
   return (
     <div className="space-y-6">
-      <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-green-bold">
-          Join Handcrafted Haven
-        </p>
-
-        <h2 className="mt-4 text-3xl font-semibold text-slate-900">
-          Create your account
-        </h2>
-
-        <p className="mt-3 text-sm leading-6 text-slate-600">
-          Create an account as a customer or seller.
-        </p>
-      </div>
+      <h2 className="mt-4 text-3xl font-semibold text-slate-900">
+        Edit your account
+      </h2>
 
       <form className="space-y-5" action={action}>
         {state && (
@@ -38,6 +30,7 @@ export default function RegisterForm() {
             required
             className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
             placeholder="Your full name"
+            defaultValue={user.name}
           />
         </label>
 
@@ -49,6 +42,7 @@ export default function RegisterForm() {
             required
             className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
             placeholder="you@example.com"
+            defaultValue={user.email}
           />
         </label>
 
@@ -57,6 +51,8 @@ export default function RegisterForm() {
           <select
             name="role"
             className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
+            disabled
+            defaultValue={user.role}
           >
             <option value={UserRole.Customer}>Customer</option>
             <option value={UserRole.Seller}>Seller</option>
@@ -72,6 +68,8 @@ export default function RegisterForm() {
             minLength={6}
             className="mt-2 w-full rounded-3xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-green-bold focus:ring-2 focus:ring-green-soft/30"
             placeholder="Create a password"
+            disabled
+            defaultValue={user.password}
           />
         </label>
 
@@ -80,7 +78,7 @@ export default function RegisterForm() {
           disabled={pending}
           className="w-full rounded-3xl bg-gold-bold px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-gold-soft"
         >
-          Create account
+          Edit account
         </button>
       </form>
     </div>

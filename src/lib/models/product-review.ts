@@ -5,6 +5,7 @@ import { UserRole } from "@/lib/models/roles";
 import { IProduct } from "@/lib/models/product";
 
 export interface IProductReview {
+  _id: ObjectId;
   customer: Types.ObjectId | IUser;
   product: Types.ObjectId | IProduct;
   rating: number;

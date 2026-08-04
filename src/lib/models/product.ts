@@ -9,6 +9,7 @@ import { UserRole } from "@/lib/models/roles";
 import { IUser } from "@/lib/models/user";
 
 export interface IProduct {
+  _id: ObjectId;
   name: string;
   description?: string;
   price: number;
