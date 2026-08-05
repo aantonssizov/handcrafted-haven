@@ -1,15 +1,43 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId, Schema, Types } from "mongoose";
+import { IUser } from "@/lib/models/user";
+import { getUser } from "@/actions/user";
+import { UserRole } from "@/lib/models/roles";
+import { IProduct } from "@/lib/models/product";
 
-export interface ProductReview {
-  // customer
+export interface IProductReview {
+  _id: ObjectId;
+  customer: Types.ObjectId | IUser;
+  product: Types.ObjectId | IProduct;
   rating: number;
   review?: string;
 }
 
-export const ProductReviewSchema = new mongoose.Schema<ProductReview>(
+export const ProductReviewSchema = new mongoose.Schema<IProductReview>(
   {
-    rating: { type: Number, min: 0, max: 5, required: true },
-    review: String,
+    customer: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      validate: async (v: ObjectId) => {
+        const user = await getUser(v);
+
+        return user.role === UserRole.Customer;
+      },
+    },
+    rating: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+    },
+    review: {
+      type: String,
+      default: "",
+    },
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
   },
   { timestamps: true },
 );

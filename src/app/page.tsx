@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { heading } from "@/app/fonts";
-import heroImage from "./assets/images/handcrafted-haven-hero.jpg";
-import artisanImage from "./assets/images/handcrafted-haven-artisans.jpg";
-import customerImage from "./assets/images/handcrafted-haven-costomers.jpg";
+import { heading } from "./fonts";
+import heroImage from "../../public/images/handcrafted-haven-hero.jpg";
+import artisanImage from "../../public/images/handcrafted-haven-artisans.jpg";
+import customerImage from "../../public/images/handcrafted-haven-customers.jpg";
 
-export default function Home() {
+export default function Page() {
   return (
     <main className="text-slate-900">
       <section className="relative min-h-screen text-white">
@@ -16,7 +16,7 @@ export default function Home() {
         <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-14 px-6 py-12 pb-15 sm:px-10 lg:px-10">
           <div className="max-w-2xl space-y-6">
             <h1
-              className={`mt-6 text-5xl font-black tracking-tight text-[#1B5E20] sm:text-6xl ${heading.className}`}
+              className={`mt-6 text-5xl font-black tracking-tight text-gold-bold sm:text-6xl ${heading.className}`}
             >
               Revolutionary Platform for Artisans
             </h1>
@@ -144,7 +144,7 @@ export default function Home() {
                 “As a full-time artisan, I wanted a place where people truly
                 appreciate handmade work. This app made it easy to showcase my
                 products, manage my orders, and connect with customers who value
-                craftsmanship. I’ve seen both my sales and confidence grow.”
+                craftsmanship. I`ve seen both my sales and confidence grow.”
               </p>
               <div className="mt-6 flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1B5E20]/10 text-[#1B5E20]">
