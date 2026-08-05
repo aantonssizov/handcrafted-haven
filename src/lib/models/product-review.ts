@@ -1,7 +1,5 @@
-import mongoose, { ObjectId, Schema, Types } from "mongoose";
-import { IUser } from "@/lib/models/user";
-import { getUser } from "../../../backend/src/actions/user";
-import { UserRole } from "@/lib/models/roles";
+import mongoose, { Schema, Types } from "mongoose";
+import { IUser } from "./user";
 
 export interface IProductReview {
   customer: Types.ObjectId | IUser;
@@ -14,17 +12,22 @@ export const ProductReviewSchema = new mongoose.Schema<IProductReview>(
     customer: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      validate: async (v: ObjectId) => {
-        const user = await getUser(v);
-
-        return user.role === UserRole.Customer;
-      },
+      required: true,
     },
-    rating: { type: Number, min: 0, max: 5, required: true },
-    review: String,
+    rating: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+    },
+    review: {
+      type: String,
+      default: "",
+    },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.models.ProductReview ||
   mongoose.model("ProductReview", ProductReviewSchema);
+  

@@ -1,7 +1,5 @@
-import mongoose, { ObjectId, Schema, Types } from "mongoose";
-import { IUser } from "@/lib/models/user";
-import { getUser } from "../../../backend/src/actions/user";
-import { UserRole } from "@/lib/models/roles";
+import mongoose, { Schema, Types } from "mongoose";
+import { IUser } from "./user";
 
 export interface ISellerProfile {
   seller: Types.ObjectId | IUser;
@@ -20,12 +18,9 @@ const SellerProfileSchema = new mongoose.Schema<ISellerProfile>(
     seller: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      validate: async (v: ObjectId) => {
-        const user = await getUser(v);
-
-        return user.role === UserRole.Seller;
-      },
+      required: true,
     },
+
     name: String,
     bio: String,
     location: String,
@@ -35,8 +30,9 @@ const SellerProfileSchema = new mongoose.Schema<ISellerProfile>(
     instagram: String,
     productList: [String],
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.models.SellerProfile ||
   mongoose.model("SellerProfile", SellerProfileSchema);
+  

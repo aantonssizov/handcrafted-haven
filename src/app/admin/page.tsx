@@ -1,4 +1,4 @@
-import RoleGuard from "../../../components/RoleGuard";
+import RoleGuard from "../../components/RoleGuard";
 import { UserRole } from "@/lib/models/roles";
 
 export default function AdminPage() {

@@ -1,12 +1,10 @@
-import mongoose, { ObjectId, Schema, Types } from "mongoose";
-import { ProductCategory } from "@/lib/models/product-category";
+import mongoose, { Schema, Types } from "mongoose";
+import { ProductCategory } from "./product-category";
 import {
   IProductReview,
   ProductReviewSchema,
-} from "@/lib/models/product-review";
-import { getUser } from "../../../backend/src/actions/user";
-import { UserRole } from "@/lib/models/roles";
-import { IUser } from "@/lib/models/user";
+} from "./product-review";
+import { IUser } from "./user";
 
 export interface IProduct {
   name: string;
@@ -21,28 +19,41 @@ export interface IProduct {
 
 const ProductSchema = new mongoose.Schema<IProduct>(
   {
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+    },
+
     description: String,
-    price: Number,
+
+    price: {
+      type: Number,
+      required: true,
+    },
+
     category: {
       type: String,
       enum: Object.values(ProductCategory),
     },
-    amountSold: Number,
+
+    amountSold: {
+      type: Number,
+      default: 0,
+    },
+
     seller: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      validate: async (v: ObjectId) => {
-        const user = await getUser(v);
-
-        return user.role === UserRole.Seller;
-      },
+      required: true,
     },
+
     pictureUrl: String,
+
     reviews: [ProductReviewSchema],
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.models.Product ||
   mongoose.model("Product", ProductSchema);
+  
