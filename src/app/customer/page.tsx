@@ -1,4 +1,5 @@
 import RoleGuard from "@/components/RoleGuard";
+import ProductCatalog from "@/components/ProductCatalog";
 import { UserRole } from "@/lib/models/roles";
 
 export default function Page() {
@@ -10,13 +11,7 @@ export default function Page() {
             Customer Area
           </p>
 
-          <h1 className="mt-4 text-4xl font-bold">
-            Welcome to your customer area
-          </h1>
-
-          <p className="mt-4 text-slate-300">
-            Browse handcrafted products and manage your purchases.
-          </p>
+          <ProductCatalog />
         </div>
       </main>
     </RoleGuard>
