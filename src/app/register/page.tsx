@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import RegisterForm from "../../components/RegisterForm";
-=======
 import RegisterForm from "@/components/RegisterForm";
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 
 export default function Page() {
   return (
