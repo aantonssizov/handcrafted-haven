@@ -1,60 +1,60 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
 
 // Mock Data
 const MOCK_PRODUCTS = [
   {
-    id: '1',
-    title: 'Handcrafted Ceramic Mug',
-    category: 'ceramics',
+    id: "1",
+    title: "Handcrafted Ceramic Mug",
+    category: "ceramics",
     price: 25,
-    artisanName: 'Sarah Smith',
-    image: '/images/logo.webp',
+    artisanName: "Sarah Smith",
+    image: "/images/logo.webp",
   },
   {
-    id: '2',
-    title: 'Carved Wooden Serving Board',
-    category: 'woodwork',
+    id: "2",
+    title: "Carved Wooden Serving Board",
+    category: "woodwork",
     price: 65,
-    artisanName: 'James M.',
-    image: '/images/logo.webp',
+    artisanName: "James M.",
+    image: "/images/logo.webp",
   },
   {
-    id: '3',
-    title: 'Handmade Silver Necklace',
-    category: 'jewelry',
+    id: "3",
+    title: "Handmade Silver Necklace",
+    category: "jewelry",
     price: 120,
-    artisanName: 'Elena R.',
-    image: '/images/logo.webp',
+    artisanName: "Elena R.",
+    image: "/images/logo.webp",
   },
   {
-    id: '4',
-    title: 'Woven Cotton Tapestry',
-    category: 'textiles',
+    id: "4",
+    title: "Woven Cotton Tapestry",
+    category: "textiles",
     price: 45,
-    artisanName: 'Marcus B.',
-    image: '/images/logo.webp',
+    artisanName: "Marcus B.",
+    image: "/images/logo.webp",
   },
   {
-    id: '5',
-    title: 'Clay Vase Set',
-    category: 'ceramics',
+    id: "5",
+    title: "Clay Vase Set",
+    category: "ceramics",
     price: 85,
-    artisanName: 'Sarah Smith',
-    image: '/images/logo.webp',
+    artisanName: "Sarah Smith",
+    image: "/images/logo.webp",
   },
 ];
 
 export default function ProductCatalog() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [maxPrice, setMaxPrice] = useState<number>(150);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const filteredProducts = useMemo(() => {
     return MOCK_PRODUCTS.filter((product) => {
       const matchesCategory =
-        selectedCategory === 'all' || product.category === selectedCategory;
+        selectedCategory === "all" || product.category === selectedCategory;
       const matchesPrice = product.price <= maxPrice;
       const matchesSearch = product.title
         .toLowerCase()
@@ -68,7 +68,9 @@ export default function ProductCatalog() {
     <div className="flex flex-col md:flex-row gap-8">
       {/* Sidebar Filter Controls */}
       <aside className="w-full md:w-64 p-5 border border-slate-800 rounded-xl bg-slate-900/60 h-fit">
-        <h2 className="font-semibold text-lg mb-4 text-white">Filter Catalog</h2>
+        <h2 className="font-semibold text-lg mb-4 text-white">
+          Filter Catalog
+        </h2>
 
         {/* Search */}
         <div className="mb-5">
@@ -126,9 +128,9 @@ export default function ProductCatalog() {
         {/* Reset Button */}
         <button
           onClick={() => {
-            setSelectedCategory('all');
+            setSelectedCategory("all");
             setMaxPrice(150);
-            setSearchQuery('');
+            setSearchQuery("");
           }}
           className="w-full py-2 px-4 bg-slate-800 text-slate-200 text-xs uppercase tracking-wider font-semibold rounded-md hover:bg-slate-700 transition"
         >
@@ -139,12 +141,18 @@ export default function ProductCatalog() {
       {/* Product Display Grid */}
       <section className="flex-1">
         <div className="mb-4 text-sm text-slate-400">
-          Showing <span className="font-semibold text-amber-400">{filteredProducts.length}</span> handcrafted items
+          Showing{" "}
+          <span className="font-semibold text-amber-400">
+            {filteredProducts.length}
+          </span>{" "}
+          handcrafted items
         </div>
 
         {filteredProducts.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-slate-800 rounded-xl bg-slate-900/30">
-            <p className="text-slate-400">No handcrafted items match your filter criteria.</p>
+            <p className="text-slate-400">
+              No handcrafted items match your filter criteria.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -167,8 +175,10 @@ export default function ProductCatalog() {
                   <h3 className="text-lg font-semibold text-white mt-1">
                     {product.title}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">By {product.artisanName}</p>
-                  
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    By {product.artisanName}
+                  </p>
+
                   <div className="mt-5 flex justify-between items-center">
                     <span className="text-xl font-bold text-white">
                       ${product.price}
