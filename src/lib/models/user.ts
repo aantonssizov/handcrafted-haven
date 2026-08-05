@@ -3,13 +3,22 @@ import { UserRole } from "@/lib/models/roles";
 import bcrypt from "bcrypt";
 
 export interface IUser {
+  _id: ObjectId;
   name: string;
   email: string;
   role: UserRole;
   password: string;
 }
 
-const UserSchema = new mongoose.Schema<IUser>(
+export interface IUserClient {
+  _id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  password: string;
+}
+
+export const UserSchema = new mongoose.Schema<IUser>(
   {
     name: String,
     email: {

@@ -23,24 +23,6 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <div className="space-y-4">
-        <button
-          type="button"
-          className="flex w-full items-center justify-center gap-3 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:border-green-bold hover:bg-slate-100"
-        >
-          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-200 text-slate-900">
-            G
-          </span>
-          Continue with Google
-        </button>
-
-        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-slate-500">
-          <span className="h-px flex-1 bg-slate-200" />
-          or
-          <span className="h-px flex-1 bg-slate-200" />
-        </div>
-      </div>
-
       <form className="space-y-5" action={action}>
         <label className="block text-sm font-medium text-slate-900">
           Email

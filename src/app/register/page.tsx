@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import RegisterForm from "../../components/RegisterForm";
+=======
+import RegisterForm from "@/components/RegisterForm";
+>>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 
-export default function RegisterPage() {
+export default function Page() {
   return (
     <main className="min-h-screen bg-slate-100 text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-6 py-12 sm:px-10">

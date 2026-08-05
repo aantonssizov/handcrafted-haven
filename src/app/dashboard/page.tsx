@@ -1,11 +1,15 @@
-import Link from "next/link";
 import { UserRole } from "@/lib/models/roles";
 import { verifySession } from "@/lib/dal";
 import { getUser } from "@/actions/user";
 import { logout } from "@/actions/auth";
+<<<<<<< HEAD
+=======
+import Link from "next/link";
+>>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 
-export default async function DashboardPage() {
+export default async function Page() {
   const session = await verifySession();
+<<<<<<< HEAD
 
   if (!session.isAuth || !session.userId) {
     return (
@@ -28,11 +32,14 @@ export default async function DashboardPage() {
     );
   }
 
+=======
+>>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
   const user = await getUser(session.userId);
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
       <div className="mx-auto max-w-4xl">
+<<<<<<< HEAD
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-yellow-400">
@@ -52,6 +59,29 @@ export default async function DashboardPage() {
               Logout
             </button>
           </form>
+=======
+        <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">
+          Dashboard
+        </p>
+        <div className="flex items-baseline justify-between">
+          <h1 className="mt-3 text-4xl font-bold">Welcome, {user.name}</h1>
+
+          <div className="flex gap-4">
+            <Link
+              href={"/dashboard/edit"}
+              className="rounded-2xl border border-gold-soft-500/30 px-5 py-3 text-gold-soft transition hover:bg-gold-soft/10"
+            >
+              Edit account
+            </Link>
+
+            <button
+              onClick={logout}
+              className="rounded-2xl border border-red-500/30 px-5 py-3 text-red-300 transition hover:bg-red-500/10"
+            >
+              Logout
+            </button>
+          </div>
+>>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
         </div>
 
         <div className="mt-10 rounded-3xl border border-white/10 bg-slate-900 p-8">

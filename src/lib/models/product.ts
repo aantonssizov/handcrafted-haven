@@ -3,10 +3,18 @@ import { ProductCategory } from "./product-category";
 import {
   IProductReview,
   ProductReviewSchema,
+<<<<<<< HEAD
 } from "./product-review";
 import { IUser } from "./user";
+=======
+} from "@/lib/models/product-review";
+import { getUser } from "@/actions/user";
+import { UserRole } from "@/lib/models/roles";
+import { IUser } from "@/lib/models/user";
+>>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 
 export interface IProduct {
+  _id: ObjectId;
   name: string;
   description?: string;
   price: number;

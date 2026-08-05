@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import RoleGuard from "../../components/RoleGuard";
+=======
+import RoleGuard from "@/components/RoleGuard";
+>>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 import { UserRole } from "@/lib/models/roles";
 
-export default function AdminPage() {
+export default function Page() {
   return (
     <RoleGuard allowedRoles={[UserRole.Admin]}>
       <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
