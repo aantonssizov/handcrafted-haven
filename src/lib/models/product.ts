@@ -1,9 +1,5 @@
 import mongoose, { ObjectId, Schema, Types } from "mongoose";
 import { ProductCategory } from "./product-category";
-import {
-  IProductReview,
-  ProductReviewSchema,
-} from "@/lib/models/product-review";
 import { getUser } from "@/actions/user";
 import { UserRole } from "@/lib/models/roles";
 import { IUser } from "@/lib/models/user";
@@ -17,7 +13,6 @@ export interface IProduct {
   amountSold: number;
   pictureUrl: string;
   seller: Types.ObjectId | string | IUser;
-  reviews: IProductReview[];
 }
 
 export interface IProductFilter {
@@ -57,7 +52,6 @@ const ProductSchema = new mongoose.Schema<IProduct>(
       },
     },
     pictureUrl: String,
-    reviews: [ProductReviewSchema],
   },
   { timestamps: true },
 );

@@ -28,7 +28,7 @@ export default async function ProductDetailPage({
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
       <div className="mx-auto max-w-6xl space-y-8">
-        <Link href="/customer" className="text-sm font-semibold text-gold-soft">
+        <Link href="/products" className="text-sm font-semibold text-gold-soft">
           ← Back to catalog
         </Link>
 
