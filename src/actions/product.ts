@@ -63,7 +63,7 @@ export async function getByFilter(filter: IProductFilter) {
 
   try {
     await dbConnect();
-    const products = await Product.find(query);
+    const products = await Product.find(query).populate("seller", "name");
     return products;
   } catch (err) {
     throw err;

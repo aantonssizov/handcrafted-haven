@@ -3,8 +3,18 @@ import { IProduct } from "@/lib/models/product";
 import { IUser } from "@/lib/models/user";
 import Link from "next/link";
 
-export default function ProductCard({ product }: { product: IProduct }) {
-  const seller: IUser = product.seller as IUser;
+export default function ProductCard({
+  product,
+  showSeller = true,
+}: {
+  product: IProduct;
+  // Hidden on a seller's own profile page, where the attribution is implied.
+  showSeller?: boolean;
+}) {
+  // `seller` is only a populated user when the query asked for it; otherwise
+  // it is a bare ObjectId and has no name to show.
+  const seller = product.seller as IUser | undefined;
+  const sellerName = typeof seller === "object" ? seller?.name : undefined;
 
   return (
     <article className="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/80 hover:border-slate-700 transition group">
@@ -30,7 +40,9 @@ export default function ProductCard({ product }: { product: IProduct }) {
         <h3 className="text-lg font-semibold text-white mt-1">
           {product.name}
         </h3>
-        <p className="text-xs text-slate-400 mt-0.5">By {seller.name}</p>
+        {showSeller && sellerName ? (
+          <p className="text-xs text-slate-400 mt-0.5">By {sellerName}</p>
+        ) : null}
 
         <div className="mt-5 flex justify-between items-center">
           <span className="text-xl font-bold text-white">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSellerProfileBySellerId } from "@/actions/seller-profile";
 import { getAllBySeller } from "@/actions/product";
+import ProductCard from "@/components/ProductCard";
 
 export default async function SellerProfilePage({
   params,
@@ -101,33 +102,11 @@ export default async function SellerProfilePage({
           ) : (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {products.map((product) => (
-                <article key={String(product._id)} className="overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70">
-                  <div className="h-48 bg-white/5">
-                    {product.pictureUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={product.pictureUrl}
-                        alt={product.name}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-sm text-slate-500">
-                        No image available
-                      </div>
-                    )}
-                  </div>
-                  <div className="space-y-3 p-5">
-                    <h3 className="text-lg font-semibold text-white">{product.name}</h3>
-                    <p className="text-sm text-slate-400">{product.description}</p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-gold-soft">${product.price.toLocaleString()}</span>
-                      <span className="text-slate-400">{product.category}</span>
-                    </div>
-                    <Link href={`/products/${String(product._id)}`} className="inline-flex text-sm font-semibold text-gold-soft hover:text-gold-bold">
-                      View details
-                    </Link>
-                  </div>
-                </article>
+                <ProductCard
+                  key={String(product._id)}
+                  product={product}
+                  showSeller={false}
+                />
               ))}
             </div>
           )}
