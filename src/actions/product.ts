@@ -2,7 +2,7 @@
 
 import dbConnect from "@/lib/mongodb";
 import { ObjectId } from "mongoose";
-import Product from "@/lib/models/product";
+import Product, { IProductFilter } from "@/lib/models/product";
 import { ProductCategory } from "@/lib/models/product-category";
 
 export async function getAll() {
@@ -27,13 +27,36 @@ export async function getAllBySeller(sellerId: ObjectId | string) {
   }
 }
 
-export async function getByFilter(price?: number, category?: ProductCategory) {
+export async function getByFilter(filter: IProductFilter) {
+  const { searchQuery, categories, minPrice, maxPrice } = filter;
+
+  const query: Record<string, unknown> = {};
+
+  if (searchQuery) {
+    query.name = { $regex: searchQuery, $options: "i" };
+  }
+
+  if (categories && categories.length > 0) {
+    query.category = { $in: categories };
+  }
+
+  const priceQuery: Record<string, number> = {};
+
+  if (minPrice !== undefined && !Number.isNaN(minPrice)) {
+    priceQuery.$gte = minPrice;
+  }
+
+  if (maxPrice !== undefined && !Number.isNaN(maxPrice)) {
+    priceQuery.$lte = maxPrice;
+  }
+
+  if (Object.keys(priceQuery).length > 0) {
+    query.price = priceQuery;
+  }
+
   try {
     await dbConnect();
-    const products = await Product.find({
-      price,
-      category,
-    });
+    const products = await Product.find(query);
     return products;
   } catch (err) {
     throw err;

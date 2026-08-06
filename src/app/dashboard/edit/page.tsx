@@ -1,12 +1,12 @@
 import { getUser } from "@/actions/user";
 import EditUserForm from "@/components/EditUserForm";
-import { IUserClient } from "@/lib/models/user";
+import { IUser } from "@/lib/models/user";
 import { getSession } from "@/lib/session";
 
 export default async function Page() {
   const session = await getSession();
   const user = await getUser(session.userId);
-  const userClient: IUserClient = {
+  const userClient: IUser = {
     ...user._doc,
     _id: user._id.toString(),
   };

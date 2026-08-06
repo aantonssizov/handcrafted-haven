@@ -2,11 +2,11 @@
 
 import { edit } from "@/actions/user";
 import { UserRole } from "@/lib/models/roles";
-import { IUserClient } from "@/lib/models/user";
+import { IUser } from "@/lib/models/user";
 import { useActionState } from "react";
 
-export default function EditUserForm({ user }: { user: IUserClient }) {
-  const editWithId = edit.bind(null, user._id);
+export default function EditUserForm({ user }: { user: IUser }) {
+  const editWithId = edit.bind(null, user._id.toString());
   const [state, action, pending] = useActionState(editWithId, undefined);
 
   return (
