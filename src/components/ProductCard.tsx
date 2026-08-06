@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { IProduct } from "@/lib/models/product";
+import { formatCategoryLabel } from "@/lib/models/product-category";
 import { IUser } from "@/lib/models/user";
 import Link from "next/link";
 
@@ -35,7 +36,7 @@ export default function ProductCard({
       </div>
       <div className="p-5">
         <span className="text-[10px] uppercase tracking-widest text-amber-400 font-semibold">
-          {product.category}
+          {formatCategoryLabel(product.category)}
         </span>
         <h3 className="text-lg font-semibold text-white mt-1">
           {product.name}

@@ -1,6 +1,9 @@
 "use client";
 
-import { ProductCategory } from "@/lib/models/product-category";
+import {
+  ProductCategory,
+  formatCategoryLabel,
+} from "@/lib/models/product-category";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -96,9 +99,9 @@ export default function ProductCatalogFilter() {
           defaultValue={searchParams.getAll("categories")}
           className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-sm text-slate-200 focus:outline-none focus:border-amber-400"
         >
-          {Object.entries(ProductCategory).map((category) => (
-            <option value={category[1]} key={category[1]}>
-              {category[0]}
+          {Object.values(ProductCategory).map((category) => (
+            <option value={category} key={category}>
+              {formatCategoryLabel(category)}
             </option>
           ))}
         </select>

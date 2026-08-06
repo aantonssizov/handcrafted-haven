@@ -2,7 +2,10 @@
 
 import { useActionState, useRef, useState } from "react";
 import { createProductAction, updateProductAction } from "@/actions/product";
-import { ProductCategory } from "@/lib/models/product-category";
+import {
+  ProductCategory,
+  formatCategoryLabel,
+} from "@/lib/models/product-category";
 
 interface ProductFormProps {
   mode: "create" | "edit";
@@ -118,7 +121,7 @@ export default function ProductForm({
           >
             {categoryOptions.map((category) => (
               <option key={category} value={category}>
-                {category}
+                {formatCategoryLabel(category)}
               </option>
             ))}
           </select>

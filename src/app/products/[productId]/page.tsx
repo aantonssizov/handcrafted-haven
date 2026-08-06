@@ -5,6 +5,7 @@ import { getByProduct } from "@/actions/product-review";
 import ProductReviewForm from "@/components/ProductReviewForm";
 import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
+import { formatCategoryLabel } from "@/lib/models/product-category";
 
 export default async function ProductDetailPage({
   params,
@@ -50,7 +51,7 @@ export default async function ProductDetailPage({
 
           <div className="space-y-6">
             <div>
-              <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">{product.category}</p>
+              <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">{formatCategoryLabel(product.category)}</p>
               <h1 className="mt-2 text-4xl font-bold text-white">{product.name}</h1>
               <p className="mt-4 text-slate-300">{product.description || "A handcrafted piece made with care."}</p>
             </div>
