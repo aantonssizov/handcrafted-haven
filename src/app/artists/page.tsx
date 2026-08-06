@@ -1,8 +1,17 @@
 import Link from "next/link";
 import { getAllSellerProfiles } from "@/actions/seller-profile";
+import { getSellerRatings } from "@/actions/product";
+import StarRating from "@/components/StarRating";
 
 export default async function ArtistsPage() {
   const profiles = await getAllSellerProfiles();
+  const ratings = await getSellerRatings(
+    profiles.map((profile) =>
+      typeof profile.seller === "object" && profile.seller?._id
+        ? String(profile.seller._id)
+        : String(profile.seller),
+    ),
+  );
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
@@ -35,6 +44,7 @@ export default async function ArtistsPage() {
                 typeof profile.seller === "object" && profile.seller?._id
                   ? String(profile.seller._id)
                   : String(profile.seller);
+              const rating = ratings[sellerId];
 
               return (
                 <article
@@ -61,6 +71,18 @@ export default async function ArtistsPage() {
                       <p className="text-sm text-slate-400">
                         {profile.location || "Location shared soon"}
                       </p>
+                      <div className="mt-1">
+                        {rating && rating.count > 0 ? (
+                          <StarRating
+                            value={rating.average}
+                            count={rating.count}
+                          />
+                        ) : (
+                          <span className="text-xs text-slate-400">
+                            No reviews yet
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
 

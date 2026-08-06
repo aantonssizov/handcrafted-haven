@@ -2,10 +2,30 @@
 
 import { ObjectId } from "mongoose";
 import ProductReview from "@/lib/models/product-review";
+import Product from "@/lib/models/product";
 import dbConnect from "@/lib/mongodb";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
+
+export async function recalculateProductRating(productId: ObjectId | string) {
+  try {
+    await dbConnect();
+    const reviews = await ProductReview.find({ product: productId })
+      .select("rating")
+      .lean<{ rating: number }[]>();
+
+    const ratingCount = reviews.length;
+    const ratingAverage =
+      ratingCount === 0
+        ? 0
+        : reviews.reduce((sum, review) => sum + review.rating, 0) / ratingCount;
+
+    await Product.findByIdAndUpdate(productId, { ratingAverage, ratingCount });
+  } catch (err) {
+    throw err;
+  }
+}
 
 export async function create(
   customer: ObjectId | string,
@@ -27,8 +47,13 @@ export async function create(
     throw err;
   }
 
-  if (productReview._id) return productReview;
-  throw new Error("Error creating new product review.");
+  if (!productReview._id) {
+    throw new Error("Error creating new product review.");
+  }
+
+  await recalculateProductRating(product);
+
+  return productReview;
 }
 
 export async function getByProduct(productId: ObjectId | string) {
@@ -57,8 +82,13 @@ export async function edit(
         returnDocument: "after",
       },
     );
-    if (productReview._id) return productReview;
-    throw new Error("Error editing the product review");
+    if (!productReview) {
+      throw new Error("Error editing the product review");
+    }
+
+    await recalculateProductRating(productReview.product);
+
+    return productReview;
   } catch (err) {
     throw err;
   }
@@ -67,7 +97,11 @@ export async function edit(
 export async function remove(id: ObjectId) {
   try {
     await dbConnect();
-    await ProductReview.findByIdAndDelete(id);
+    const productReview = await ProductReview.findByIdAndDelete(id);
+
+    if (productReview) {
+      await recalculateProductRating(productReview.product);
+    }
   } catch (err) {
     throw err;
   }

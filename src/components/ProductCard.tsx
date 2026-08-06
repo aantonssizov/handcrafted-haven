@@ -3,17 +3,15 @@ import { IProduct } from "@/lib/models/product";
 import { formatCategoryLabel } from "@/lib/models/product-category";
 import { IUser } from "@/lib/models/user";
 import Link from "next/link";
+import StarRating from "./StarRating";
 
 export default function ProductCard({
   product,
   showSeller = true,
 }: {
   product: IProduct;
-  // Hidden on a seller's own profile page, where the attribution is implied.
   showSeller?: boolean;
 }) {
-  // `seller` is only a populated user when the query asked for it; otherwise
-  // it is a bare ObjectId and has no name to show.
   const seller = product.seller as IUser | undefined;
   const sellerName = typeof seller === "object" ? seller?.name : undefined;
 
@@ -44,6 +42,17 @@ export default function ProductCard({
         {showSeller && sellerName ? (
           <p className="text-xs text-slate-400 mt-0.5">By {sellerName}</p>
         ) : null}
+
+        <div className="mt-2">
+          {product.ratingCount > 0 ? (
+            <StarRating
+              value={product.ratingAverage}
+              count={product.ratingCount}
+            />
+          ) : (
+            <span className="text-xs text-slate-400">No reviews yet</span>
+          )}
+        </div>
 
         <div className="mt-5 flex justify-between items-center">
           <span className="text-xl font-bold text-white">

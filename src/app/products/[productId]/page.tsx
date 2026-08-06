@@ -6,6 +6,7 @@ import ProductReviewForm from "@/components/ProductReviewForm";
 import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
 import { formatCategoryLabel } from "@/lib/models/product-category";
+import StarRating from "@/components/StarRating";
 
 export default async function ProductDetailPage({
   params,
@@ -89,7 +90,15 @@ export default async function ProductDetailPage({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-white">Reviews</h2>
-              <span className="text-sm text-slate-400">{reviews.length} review(s)</span>
+              {product.ratingCount > 0 ? (
+                <StarRating
+                  value={product.ratingAverage}
+                  count={product.ratingCount}
+                  size="md"
+                />
+              ) : (
+                <span className="text-sm text-slate-400">No reviews yet</span>
+              )}
             </div>
 
             {reviews.length === 0 ? (
@@ -102,7 +111,7 @@ export default async function ProductDetailPage({
                   <div key={String(review._id)} className="rounded-3xl border border-white/10 bg-slate-900/70 p-5">
                     <div className="flex items-center justify-between">
                       <p className="font-semibold text-white">{review.customer?.name || "Anonymous"}</p>
-                      <p className="text-sm text-gold-soft">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</p>
+                      <StarRating value={review.rating} showValue={false} />
                     </div>
                     {review.review ? <p className="mt-3 text-sm text-slate-300">{review.review}</p> : null}
                   </div>

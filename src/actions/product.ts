@@ -4,6 +4,7 @@ import dbConnect from "@/lib/mongodb";
 import { ObjectId } from "mongoose";
 import Product, { IProductFilter } from "@/lib/models/product";
 import { ProductCategory } from "@/lib/models/product-category";
+import { combineProductRatings, IRatingSummary } from "@/lib/rating";
 import fs from "fs/promises";
 import path from "path";
 import { redirect } from "next/navigation";
@@ -29,6 +30,46 @@ export async function getAllBySeller(sellerId: ObjectId | string) {
       seller: sellerId,
     }).sort({ createdAt: -1 });
     return products;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getSellerRatings(sellerIds: (ObjectId | string)[]) {
+  const ratings: Record<string, IRatingSummary> = {};
+
+  if (sellerIds.length === 0) {
+    return ratings;
+  }
+
+  try {
+    await dbConnect();
+    const products = await Product.find({ seller: { $in: sellerIds } })
+      .select("seller ratingAverage ratingCount")
+      .lean<
+        { seller: unknown; ratingAverage: number; ratingCount: number }[]
+      >();
+
+    const productsBySeller: Record<
+      string,
+      { ratingAverage: number; ratingCount: number }[]
+    > = {};
+
+    for (const product of products) {
+      const sellerId = String(product.seller);
+
+      if (productsBySeller[sellerId] === undefined) {
+        productsBySeller[sellerId] = [];
+      }
+
+      productsBySeller[sellerId].push(product);
+    }
+
+    for (const sellerId of Object.keys(productsBySeller)) {
+      ratings[sellerId] = combineProductRatings(productsBySeller[sellerId]);
+    }
+
+    return ratings;
   } catch (err) {
     throw err;
   }

@@ -37,10 +37,13 @@ export const ProductReviewSchema = new mongoose.Schema<IProductReview>(
     product: {
       type: Schema.Types.ObjectId,
       ref: "Product",
+      required: true,
     },
   },
   { timestamps: true },
 );
+
+ProductReviewSchema.index({ product: 1, createdAt: -1 });
 
 export default mongoose.models.ProductReview ||
   mongoose.model("ProductReview", ProductReviewSchema);

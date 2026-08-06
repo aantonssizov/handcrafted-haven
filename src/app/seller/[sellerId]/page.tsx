@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getSellerProfileBySellerId } from "@/actions/seller-profile";
 import { getAllBySeller } from "@/actions/product";
 import ProductCard from "@/components/ProductCard";
+import StarRating from "@/components/StarRating";
+import { combineProductRatings } from "@/lib/rating";
 
 export default async function SellerProfilePage({
   params,
@@ -22,6 +24,7 @@ export default async function SellerProfilePage({
       : "Featured artist";
 
   const products = await getAllBySeller(sellerId);
+  const rating = combineProductRatings(products);
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
@@ -52,6 +55,15 @@ export default async function SellerProfilePage({
                 Seller profile
               </p>
               <h1 className="text-4xl font-bold text-white">{sellerName}</h1>
+              {rating.count > 0 ? (
+                <StarRating
+                  value={rating.average}
+                  count={rating.count}
+                  size="md"
+                />
+              ) : (
+                <span className="text-sm text-slate-400">No reviews yet</span>
+              )}
               <p className="max-w-2xl text-slate-300">
                 {profile.bio || "This maker is still sharing their story."}
               </p>
