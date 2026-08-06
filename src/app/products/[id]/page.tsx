@@ -1,5 +1,5 @@
-import ProductCard from "../../components/ProductCard";
-import { products } from "../../lib/data/products";
+import ProductCard from "../../../components/ProductCardOld";
+import { products } from "../../../lib/data/products";
 
 export default function ProductsPage() {
   return (
@@ -24,10 +24,7 @@ export default function ProductsPage() {
         ) : (
           <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
+              <ProductCard key={product.id} product={product} />
             ))}
           </section>
         )}

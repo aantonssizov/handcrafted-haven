@@ -9,15 +9,22 @@ import { UserRole } from "@/lib/models/roles";
 import { IUser } from "@/lib/models/user";
 
 export interface IProduct {
-  _id: ObjectId;
+  _id: ObjectId | string;
   name: string;
   description?: string;
   price: number;
   category: ProductCategory;
   amountSold: number;
   pictureUrl: string;
-  seller: Types.ObjectId | IUser;
+  seller: Types.ObjectId | string | IUser;
   reviews: IProductReview[];
+}
+
+export interface IProductFilter {
+  searchQuery?: string;
+  categories?: string[];
+  minPrice?: number;
+  maxPrice?: number;
 }
 
 const ProductSchema = new mongoose.Schema<IProduct>(
