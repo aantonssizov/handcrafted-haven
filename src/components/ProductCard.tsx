@@ -1,51 +1,47 @@
 import Image from "next/image";
+import { IProduct } from "@/lib/models/product";
+import { IUser } from "@/lib/models/user";
 import Link from "next/link";
-import type { Product } from "../lib/types/product";
 
-interface ProductCardProps {
-  product: Product;
-}
+export default function ProductCard({ product }: { product: IProduct }) {
+  const seller: IUser = product.seller as IUser;
 
-export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <Link
-      href={`/products/${product.id}`}
-      className="block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-lg"
-    >
-      <div className="relative h-56 w-full">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover"
-        />
+    <article className="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/80 hover:border-slate-700 transition group">
+      <div className="h-48 bg-slate-950 relative overflow-hidden">
+        {product.pictureUrl ? (
+          <Image
+            src={product.pictureUrl}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover group-hover:scale-105 transition duration-300"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-widest text-slate-600">
+            No image
+          </div>
+        )}
       </div>
-
-      <div className="p-4">
-        <p className="mb-1 text-sm text-gray-500">{product.category}</p>
-
-        <h2 className="text-xl font-semibold text-gray-900">
+      <div className="p-5">
+        <span className="text-[10px] uppercase tracking-widest text-amber-400 font-semibold">
+          {product.category}
+        </span>
+        <h3 className="text-lg font-semibold text-white mt-1">
           {product.name}
-        </h2>
+        </h3>
+        <p className="text-xs text-slate-400 mt-0.5">By {seller.name}</p>
 
-        <p className="mt-2 line-clamp-2 text-sm text-gray-600">
-          {product.description}
-        </p>
-
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-lg font-bold text-[#1B5E20]">
-            ₦{product.price.toLocaleString()}
-          </span>
-
-          <span className="text-sm text-yellow-600">
-            ⭐ {product.rating} ({product.reviewCount})
-          </span>
+        <div className="mt-5 flex justify-between items-center">
+          <span className="text-xl font-bold text-white">${product.price}</span>
+          <Link
+            href={`/products/${product._id}`}
+            className="px-3.5 py-1.5 bg-amber-400 text-slate-950 text-xs font-bold uppercase tracking-wider rounded-md hover:bg-amber-300 transition"
+          >
+            View
+          </Link>
         </div>
-
-        <p className="mt-2 text-sm text-gray-500">
-          Sold by {product.seller}
-        </p>
       </div>
-    </Link>
+    </article>
   );
 }

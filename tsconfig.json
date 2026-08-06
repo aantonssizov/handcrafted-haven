@@ -17,11 +17,16 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+<<<<<<< HEAD
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ]
+=======
+    "paths": {
+      "@/*": ["./src/*"]
+>>>>>>> 174a25eaf8bf61ebb4209c95423e8f7b6a0ff456
     },
     "plugins": [
       {
@@ -36,9 +41,13 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
+<<<<<<< HEAD
   "exclude": [
     "node_modules",
     "backend",
     "my-project"
   ]
+=======
+  "exclude": ["node_modules", "backend", "my-project"]
+>>>>>>> 174a25eaf8bf61ebb4209c95423e8f7b6a0ff456
 }

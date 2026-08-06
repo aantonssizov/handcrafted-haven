@@ -3,15 +3,7 @@ import { UserRole } from "@/lib/models/roles";
 import bcrypt from "bcrypt";
 
 export interface IUser {
-  _id: ObjectId;
-  name: string;
-  email: string;
-  role: UserRole;
-  password: string;
-}
-
-export interface IUserClient {
-  _id: string;
+  _id: ObjectId | string;
   name: string;
   email: string;
   role: UserRole;

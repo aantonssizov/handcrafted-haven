@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import RoleGuard from "../../components/RoleGuard";
-import SellerProfileForm from "../../components/SellerProfileForm";
-import { UserRole } from "../../lib/models/roles";
-=======
 import RoleGuard from "@/components/RoleGuard";
 import SellerProfileForm from "@/components/SellerProfileForm";
 import { UserRole } from "@/lib/models/roles";
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 
 export default function Page() {
   return (

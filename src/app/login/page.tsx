@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import LoginForm from "../../components/LoginForm";
-export default function LoginPage() {
-=======
 import LoginForm from "@/components/LoginForm";
 
 export default function Page() {
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
   return (
     <main className="min-h-screen bg-slate-100 text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-6 py-12 sm:px-10">

@@ -2,49 +2,79 @@
 
 import dbConnect from "@/lib/mongodb";
 import { ObjectId } from "mongoose";
-import Product from "@/lib/models/product";
+import Product, { IProductFilter } from "@/lib/models/product";
 import { ProductCategory } from "@/lib/models/product-category";
+import fs from "fs/promises";
+import path from "path";
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
+import { UserRole } from "@/lib/models/roles";
 
 export async function getAll() {
   try {
     await dbConnect();
-    const products = await Product.find({});
+    const products = await Product.find({})
+      .populate("seller", "name")
+      .sort({ createdAt: -1 });
     return products;
   } catch (err) {
     throw err;
   }
 }
 
-export async function getAllBySeller(sellerId: ObjectId) {
+export async function getAllBySeller(sellerId: ObjectId | string) {
   try {
     await dbConnect();
     const products = await Product.find({
       seller: sellerId,
-    });
+    }).sort({ createdAt: -1 });
     return products;
   } catch (err) {
     throw err;
   }
 }
 
-export async function getByFilter(price?: number, category?: ProductCategory) {
+export async function getByFilter(filter: IProductFilter) {
+  const { searchQuery, categories, minPrice, maxPrice } = filter;
+
+  const query: Record<string, unknown> = {};
+
+  if (searchQuery) {
+    query.name = { $regex: searchQuery, $options: "i" };
+  }
+
+  if (categories && categories.length > 0) {
+    query.category = { $in: categories };
+  }
+
+  const priceQuery: Record<string, number> = {};
+
+  if (minPrice !== undefined && !Number.isNaN(minPrice)) {
+    priceQuery.$gte = minPrice;
+  }
+
+  if (maxPrice !== undefined && !Number.isNaN(maxPrice)) {
+    priceQuery.$lte = maxPrice;
+  }
+
+  if (Object.keys(priceQuery).length > 0) {
+    query.price = priceQuery;
+  }
+
   try {
     await dbConnect();
-    const products = await Product.find({
-      price,
-      category,
-    });
+    const products = await Product.find(query);
     return products;
   } catch (err) {
     throw err;
   }
 }
 
-export async function get(id: ObjectId) {
+export async function get(id: ObjectId | string) {
   try {
     await dbConnect();
     const product = await Product.findOne({ _id: id })
-      .populate("reviews")
+      .populate("seller", "name email role")
       .exec();
     return product;
   } catch (err) {
@@ -59,7 +89,7 @@ export async function create(
   category: ProductCategory,
   amountSold: number,
   pictureUrl: string,
-  seller: ObjectId,
+  seller: ObjectId | string,
 ) {
   let product = new Product({
     name,
@@ -126,4 +156,136 @@ export async function remove(id: ObjectId) {
     throw err;
   }
   return "Product removed successfully";
+}
+
+async function uploadProductImage(formData: FormData, fallbackUrl?: string) {
+  const imageFile = formData.get("image");
+
+  if (imageFile instanceof File && imageFile.size > 0) {
+    const uploadsPath = path.join(process.cwd(), "public", "uploads");
+    await fs.mkdir(uploadsPath, { recursive: true });
+
+    const safeName = String(imageFile.name)
+      .replace(/[^a-zA-Z0-9._-]/g, "_")
+      .replace(/_+/g, "_");
+    const filename = `${Date.now()}-${safeName}`;
+    const filePath = path.join(uploadsPath, filename);
+    const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
+
+    await fs.writeFile(filePath, fileBuffer);
+
+    return `/uploads/${filename}`;
+  }
+
+  return fallbackUrl || "";
+}
+
+export async function createProductAction(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  const session = await getSession();
+
+  if (!session.userId) {
+    return "Please log in to create a product.";
+  }
+
+  if (session.userRole !== UserRole.Seller) {
+    return "Only sellers can create products.";
+  }
+
+  const name = String(formData.get("name") || "").trim();
+  const description = String(formData.get("description") || "").trim();
+  const price = Number(formData.get("price") || 0);
+  const category = String(formData.get("category") || ProductCategory.Other) as ProductCategory;
+  const amountSold = Number(formData.get("amountSold") || 0);
+  const pictureUrl = await uploadProductImage(formData);
+
+  if (!name || !price) {
+    return "Please provide a product name and price.";
+  }
+
+  const product = await create(
+    name,
+    description || undefined,
+    price,
+    category,
+    amountSold,
+    pictureUrl,
+    session.userId,
+  );
+
+  redirect(`/products/${String(product._id)}`);
+}
+
+export async function updateProductAction(
+  productId: string,
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  const session = await getSession();
+
+  if (!session.userId) {
+    return "Please log in to update this product.";
+  }
+
+  if (session.userRole !== UserRole.Seller) {
+    return "Only sellers can edit products.";
+  }
+
+  const existingProduct = await Product.findOne({
+    _id: productId,
+    seller: session.userId,
+  });
+
+  if (!existingProduct) {
+    return "You can only edit your own products.";
+  }
+
+  const name = String(formData.get("name") || "").trim();
+  const description = String(formData.get("description") || "").trim();
+  const price = Number(formData.get("price") || 0);
+  const category = String(formData.get("category") || ProductCategory.Other) as ProductCategory;
+  const amountSold = Number(formData.get("amountSold") || existingProduct.amountSold || 0);
+  const pictureUrl = await uploadProductImage(formData, existingProduct.pictureUrl);
+
+  if (!name || !price) {
+    return "Please provide a product name and price.";
+  }
+
+  const product = await update(
+    existingProduct._id as ObjectId,
+    name,
+    description || undefined,
+    price,
+    category,
+    amountSold,
+    pictureUrl,
+  );
+
+  redirect(`/products/${String(product._id)}`);
+}
+
+export async function deleteProductAction(productId: string) {
+  const session = await getSession();
+
+  if (!session.userId) {
+    return;
+  }
+
+  if (session.userRole !== UserRole.Seller) {
+    return;
+  }
+
+  const product = await Product.findOne({
+    _id: productId,
+    seller: session.userId,
+  });
+
+  if (!product) {
+    return;
+  }
+
+  await remove(product._id as ObjectId);
+  redirect("/dashboard");
 }

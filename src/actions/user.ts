@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-import dbConnect from "@/lib/mongodb";
-import { ObjectId } from "mongoose";
-import User from "@/lib/models/user";
-=======
 "use server";
 
 import dbConnect from "@/lib/mongodb";
 import mongoose, { ObjectId } from "mongoose";
 import User from "@/lib/models/user";
 import { redirect } from "next/navigation";
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 
 export async function getUser(userId: ObjectId) {
   await dbConnect();
@@ -19,8 +13,6 @@ export async function getUser(userId: ObjectId) {
 
   return user;
 }
-<<<<<<< HEAD
-=======
 
 export async function edit(
   userId: string,
@@ -44,4 +36,3 @@ export async function edit(
 
   redirect("/dashboard");
 }
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71

@@ -2,9 +2,35 @@
 
 import dbConnect from "@/lib/mongodb";
 import SellerProfile from "@/lib/models/seller-profile";
+import User from "@/lib/models/user";
 import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
-import { put } from "@vercel/blob";
+import type { ObjectId } from "mongoose";
+
+export async function getAllSellerProfiles() {
+  await dbConnect();
+
+  return SellerProfile.find({})
+    .populate({
+      path: "seller",
+      select: "name email role",
+      model: User,
+    })
+    .sort({ createdAt: -1 })
+    .lean();
+}
+
+export async function getSellerProfileBySellerId(sellerId: string | ObjectId) {
+  await dbConnect();
+
+  return SellerProfile.findOne({ seller: sellerId })
+    .populate({
+      path: "seller",
+      select: "name email role",
+      model: User,
+    })
+    .lean();
+}
 
 export async function createOrUpdateSellerProfile(
   prevState: string | undefined,
@@ -22,17 +48,15 @@ export async function createOrUpdateSellerProfile(
 
   await dbConnect();
 
-  const imageFile = formData.get("avatar") as File;
-  const blob = await put(imageFile.name, imageFile, {
-    access: "public",
-    addRandomSuffix: true,
-  });
+  const existingProfile = await SellerProfile.findOne({ seller: session.userId });
+  const avatarUrlFromForm = String(formData.get("avatarUrl") || "").trim();
+  const avatarUrl = avatarUrlFromForm || existingProfile?.avatarUrl || "";
 
   const profileData = {
     seller: session.userId,
     bio: String(formData.get("bio") || "").trim(),
     location: String(formData.get("location") || "").trim(),
-    avatarUrl: blob.url,
+    avatarUrl,
     experienceYears: Number(formData.get("experienceYears") || 0),
     website: String(formData.get("website") || "").trim(),
     instagram: String(formData.get("instagram") || "").trim(),

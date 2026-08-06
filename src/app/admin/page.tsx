@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import RoleGuard from "../../components/RoleGuard";
-=======
 import RoleGuard from "@/components/RoleGuard";
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 import { UserRole } from "@/lib/models/roles";
 
 export default function Page() {

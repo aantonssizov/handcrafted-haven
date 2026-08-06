@@ -1,5 +1,10 @@
+<<<<<<< HEAD:src/app/product/page.tsx
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/lib/data/products";
+=======
+import ProductCard from "../../../components/ProductCardOld";
+import { products } from "../../../lib/data/products";
+>>>>>>> 174a25eaf8bf61ebb4209c95423e8f7b6a0ff456:src/app/products/[id]/page.tsx
 
 export default function ProductsPage() {
   return (
@@ -24,10 +29,7 @@ export default function ProductsPage() {
         ) : (
           <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
+              <ProductCard key={product.id} product={product} />
             ))}
           </section>
         )}

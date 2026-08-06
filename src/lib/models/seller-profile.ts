@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-import mongoose, { Schema, Types } from "mongoose";
-import { IUser } from "./user";
-=======
 import mongoose, { ObjectId, Schema, Types } from "mongoose";
 import { IUser } from "@/lib/models/user";
 import { getUser } from "@/actions/user";
 import { UserRole } from "@/lib/models/roles";
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
 
 export interface ISellerProfile {
   _id: ObjectId;
@@ -25,12 +20,12 @@ const SellerProfileSchema = new mongoose.Schema<ISellerProfile>(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
-<<<<<<< HEAD
+      validate: async (v: ObjectId) => {
+        const user = await getUser(v);
 
-    name: String,
-=======
->>>>>>> 50f70239b2e4738e2f81a387473cc559ebd7af71
+        return user.role === UserRole.Seller;
+      },
+    },
     bio: String,
     location: String,
     avatarUrl: String,
@@ -38,9 +33,8 @@ const SellerProfileSchema = new mongoose.Schema<ISellerProfile>(
     website: String,
     instagram: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.SellerProfile ||
   mongoose.model("SellerProfile", SellerProfileSchema);
-  
