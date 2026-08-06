@@ -15,7 +15,9 @@ export const UserSchema = new mongoose.Schema<IUser>(
     name: String,
     email: {
       type: String,
-      uniquie: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
       required: true,
       validate: {
         validator: (v) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/.test(v),

@@ -2,7 +2,10 @@
 
 import { useActionState, useRef, useState } from "react";
 import { createProductAction, updateProductAction } from "@/actions/product";
-import { ProductCategory } from "@/lib/models/product-category";
+import {
+  ProductCategory,
+  formatCategoryLabel,
+} from "@/lib/models/product-category";
 
 interface ProductFormProps {
   mode: "create" | "edit";
@@ -86,7 +89,7 @@ export default function ProductForm({
         </label>
 
         <label className="block text-sm text-slate-300">
-          <span className="mb-2 block font-medium">Price</span>
+          <span className="mb-2 block font-medium">Price ($)</span>
           <input
             name="price"
             type="number"
@@ -118,7 +121,7 @@ export default function ProductForm({
           >
             {categoryOptions.map((category) => (
               <option key={category} value={category}>
-                {category}
+                {formatCategoryLabel(category)}
               </option>
             ))}
           </select>

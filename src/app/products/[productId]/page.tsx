@@ -5,6 +5,8 @@ import { getByProduct } from "@/actions/product-review";
 import ProductReviewForm from "@/components/ProductReviewForm";
 import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
+import { formatCategoryLabel } from "@/lib/models/product-category";
+import StarRating from "@/components/StarRating";
 
 export default async function ProductDetailPage({
   params,
@@ -50,14 +52,14 @@ export default async function ProductDetailPage({
 
           <div className="space-y-6">
             <div>
-              <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">{product.category}</p>
+              <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">{formatCategoryLabel(product.category)}</p>
               <h1 className="mt-2 text-4xl font-bold text-white">{product.name}</h1>
               <p className="mt-4 text-slate-300">{product.description || "A handcrafted piece made with care."}</p>
             </div>
 
             <div className="rounded-3xl border border-white/10 bg-slate-950/70 p-5">
               <div className="flex items-center justify-between">
-                <span className="text-3xl font-bold text-gold-soft">₦{product.price.toLocaleString()}</span>
+                <span className="text-3xl font-bold text-gold-soft">${product.price.toLocaleString()}</span>
                 <span className="text-sm text-slate-400">{product.amountSold || 0} sold</span>
               </div>
 
@@ -88,7 +90,15 @@ export default async function ProductDetailPage({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-white">Reviews</h2>
-              <span className="text-sm text-slate-400">{reviews.length} review(s)</span>
+              {product.ratingCount > 0 ? (
+                <StarRating
+                  value={product.ratingAverage}
+                  count={product.ratingCount}
+                  size="md"
+                />
+              ) : (
+                <span className="text-sm text-slate-400">No reviews yet</span>
+              )}
             </div>
 
             {reviews.length === 0 ? (
@@ -101,7 +111,7 @@ export default async function ProductDetailPage({
                   <div key={String(review._id)} className="rounded-3xl border border-white/10 bg-slate-900/70 p-5">
                     <div className="flex items-center justify-between">
                       <p className="font-semibold text-white">{review.customer?.name || "Anonymous"}</p>
-                      <p className="text-sm text-gold-soft">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</p>
+                      <StarRating value={review.rating} showValue={false} />
                     </div>
                     {review.review ? <p className="mt-3 text-sm text-slate-300">{review.review}</p> : null}
                   </div>

@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSellerProfileBySellerId } from "@/actions/seller-profile";
 import { getAllBySeller } from "@/actions/product";
+import ProductCard from "@/components/ProductCard";
+import StarRating from "@/components/StarRating";
+import { combineProductRatings } from "@/lib/rating";
 
 export default async function SellerProfilePage({
   params,
@@ -21,6 +24,7 @@ export default async function SellerProfilePage({
       : "Featured artist";
 
   const products = await getAllBySeller(sellerId);
+  const rating = combineProductRatings(products);
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
@@ -51,6 +55,15 @@ export default async function SellerProfilePage({
                 Seller profile
               </p>
               <h1 className="text-4xl font-bold text-white">{sellerName}</h1>
+              {rating.count > 0 ? (
+                <StarRating
+                  value={rating.average}
+                  count={rating.count}
+                  size="md"
+                />
+              ) : (
+                <span className="text-sm text-slate-400">No reviews yet</span>
+              )}
               <p className="max-w-2xl text-slate-300">
                 {profile.bio || "This maker is still sharing their story."}
               </p>
@@ -101,33 +114,11 @@ export default async function SellerProfilePage({
           ) : (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {products.map((product) => (
-                <article key={String(product._id)} className="overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70">
-                  <div className="h-48 bg-white/5">
-                    {product.pictureUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={product.pictureUrl}
-                        alt={product.name}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-sm text-slate-500">
-                        No image available
-                      </div>
-                    )}
-                  </div>
-                  <div className="space-y-3 p-5">
-                    <h3 className="text-lg font-semibold text-white">{product.name}</h3>
-                    <p className="text-sm text-slate-400">{product.description}</p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-gold-soft">₦{product.price.toLocaleString()}</span>
-                      <span className="text-slate-400">{product.category}</span>
-                    </div>
-                    <Link href={`/products/${String(product._id)}`} className="inline-flex text-sm font-semibold text-gold-soft hover:text-gold-bold">
-                      View details
-                    </Link>
-                  </div>
-                </article>
+                <ProductCard
+                  key={String(product._id)}
+                  product={product}
+                  showSeller={false}
+                />
               ))}
             </div>
           )}

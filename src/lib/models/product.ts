@@ -13,6 +13,8 @@ export interface IProduct {
   amountSold: number;
   pictureUrl: string;
   seller: Types.ObjectId | string | IUser;
+  ratingAverage: number;
+  ratingCount: number;
 }
 
 export interface IProductFilter {
@@ -52,9 +54,19 @@ const ProductSchema = new mongoose.Schema<IProduct>(
       },
     },
     pictureUrl: String,
+    ratingAverage: {
+      type: Number,
+      default: 0,
+    },
+    ratingCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true },
 );
+
+ProductSchema.index({ seller: 1 });
 
 export default mongoose.models.Product ||
   mongoose.model("Product", ProductSchema);
