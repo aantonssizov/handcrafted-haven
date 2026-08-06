@@ -15,7 +15,7 @@ export async function getAll() {
   }
 }
 
-export async function getAllBySeller(sellerId: ObjectId) {
+export async function getAllBySeller(sellerId: ObjectId | string) {
   try {
     await dbConnect();
     const products = await Product.find({

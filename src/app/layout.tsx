@@ -47,7 +47,7 @@ export default async function RootLayout({
             <ul className="flex items-center gap-4 text-sm font-medium text-slate-950">
               <li>
                 <Link
-                  href="#"
+                  href="/artists"
                   className="font-sans font-semibold text-slate-950"
                 >
                   Artists
@@ -55,7 +55,7 @@ export default async function RootLayout({
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/product"
                   className="font-sans font-semibold text-slate-950"
                 >
                   Product Listings
