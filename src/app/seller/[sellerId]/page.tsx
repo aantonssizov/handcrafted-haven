@@ -123,6 +123,9 @@ export default async function SellerProfilePage({
                       <span className="font-semibold text-gold-soft">₦{product.price.toLocaleString()}</span>
                       <span className="text-slate-400">{product.category}</span>
                     </div>
+                    <Link href={`/products/${String(product._id)}`} className="inline-flex text-sm font-semibold text-gold-soft hover:text-gold-bold">
+                      View details
+                    </Link>
                   </div>
                 </article>
               ))}

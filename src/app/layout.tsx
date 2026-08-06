@@ -55,7 +55,7 @@ export default async function RootLayout({
               </li>
               <li>
                 <Link
-                  href="/product"
+                  href="/customer"
                   className="font-sans font-semibold text-slate-950"
                 >
                   Product Listings

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useState, useRef } from "react";
 import { createOrUpdateSellerProfile } from "../actions/seller-profile";
 
 export default function SellerProfileForm() {
@@ -11,6 +11,8 @@ export default function SellerProfileForm() {
   );
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const avatarInputId = useId();
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -18,15 +20,45 @@ export default function SellerProfileForm() {
     };
   }, [avatarPreview]);
 
-  function selectAvatar(event: React.ChangeEvent<HTMLInputElement>) {
+  async function selectAvatar(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
+    if (!file) return;
+
     if (avatarPreview) URL.revokeObjectURL(avatarPreview);
-    setAvatarPreview(file ? URL.createObjectURL(file) : null);
+    setAvatarPreview(URL.createObjectURL(file));
+
+    // upload immediately to /api/upload
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("image", file);
+
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!res.ok) throw new Error("Upload failed");
+      const json = await res.json();
+      const url = json.url as string;
+
+      // set hidden input value
+      const hidden = document.querySelector<HTMLInputElement>('input[name="avatarUrl"]');
+      if (hidden) hidden.value = url;
+      setAvatarPreview(url);
+    } catch (err) {
+      console.error(err);
+      alert("Avatar upload failed. Try a smaller file.");
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function handleSubmit() {
+    // prevent the file input from being sent to the server action
+    if (fileRef.current) fileRef.current.disabled = true;
   }
 
   return (
     <form
+      onSubmit={handleSubmit}
       action={action}
       className="mt-8 space-y-5 rounded-3xl border border-white/10 bg-slate-900/80 p-6"
     >
@@ -73,6 +105,7 @@ export default function SellerProfileForm() {
           </div>
           <div>
             <input
+              ref={fileRef}
               id={avatarInputId}
               name="avatar"
               type="file"
@@ -80,6 +113,7 @@ export default function SellerProfileForm() {
               className="sr-only"
               onChange={selectAvatar}
             />
+            <input type="hidden" name="avatarUrl" />
             <label
               htmlFor={avatarInputId}
               className="inline-flex cursor-pointer rounded-3xl border border-white/20 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:border-gold-soft hover:text-gold-soft"
@@ -89,6 +123,7 @@ export default function SellerProfileForm() {
             <p className="mt-2 text-xs text-slate-400">
               PNG, JPG, or WebP. Maximum 2 MB.
             </p>
+            {uploading ? <p className="mt-2 text-sm text-amber-400">Uploading...</p> : null}
           </div>
         </div>
       </div>

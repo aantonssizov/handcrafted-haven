@@ -5,7 +5,6 @@ import SellerProfile from "@/lib/models/seller-profile";
 import User from "@/lib/models/user";
 import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
-import { put } from "@vercel/blob";
 import type { ObjectId } from "mongoose";
 
 export async function getAllSellerProfiles() {
@@ -50,17 +49,8 @@ export async function createOrUpdateSellerProfile(
   await dbConnect();
 
   const existingProfile = await SellerProfile.findOne({ seller: session.userId });
-  const imageFile = formData.get("avatar");
-  let avatarUrl = existingProfile?.avatarUrl;
-
-  if (imageFile instanceof File && imageFile.size > 0) {
-    const blob = await put(imageFile.name, imageFile, {
-      access: "public",
-      addRandomSuffix: true,
-    });
-
-    avatarUrl = blob.url;
-  }
+  const avatarUrlFromForm = String(formData.get("avatarUrl") || "").trim();
+  const avatarUrl = avatarUrlFromForm || existingProfile?.avatarUrl || "";
 
   const profileData = {
     seller: session.userId,

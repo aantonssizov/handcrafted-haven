@@ -56,11 +56,24 @@ export default async function Page() {
 
         {user.role === UserRole.Seller && (
           <div className="mt-6 rounded-3xl border border-white/10 bg-slate-900 p-8">
-            <h2 className="text-2xl font-bold">Seller Area</h2>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-2xl font-bold">Seller Area</h2>
 
-            <p className="mt-3 text-slate-300">
-              Manage your products and seller profile.
-            </p>
+                <p className="mt-3 text-slate-300">
+                  Manage your products and seller profile.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Link href="/products/new" className="rounded-2xl bg-gold-bold px-4 py-2 font-semibold text-slate-950">
+                  Add product
+                </Link>
+                <Link href="/seller" className="rounded-2xl border border-gold-soft/40 px-4 py-2 font-semibold text-gold-soft">
+                  Edit profile
+                </Link>
+              </div>
+            </div>
           </div>
         )}
 
