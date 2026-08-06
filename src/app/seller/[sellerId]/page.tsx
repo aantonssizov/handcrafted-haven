@@ -120,7 +120,7 @@ export default async function SellerProfilePage({
                     <h3 className="text-lg font-semibold text-white">{product.name}</h3>
                     <p className="text-sm text-slate-400">{product.description}</p>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-gold-soft">₦{product.price.toLocaleString()}</span>
+                      <span className="font-semibold text-gold-soft">${product.price.toLocaleString()}</span>
                       <span className="text-slate-400">{product.category}</span>
                     </div>
                     <Link href={`/products/${String(product._id)}`} className="inline-flex text-sm font-semibold text-gold-soft hover:text-gold-bold">

@@ -57,7 +57,7 @@ export default async function ProductDetailPage({
 
             <div className="rounded-3xl border border-white/10 bg-slate-950/70 p-5">
               <div className="flex items-center justify-between">
-                <span className="text-3xl font-bold text-gold-soft">₦{product.price.toLocaleString()}</span>
+                <span className="text-3xl font-bold text-gold-soft">${product.price.toLocaleString()}</span>
                 <span className="text-sm text-slate-400">{product.amountSold || 0} sold</span>
               </div>
 

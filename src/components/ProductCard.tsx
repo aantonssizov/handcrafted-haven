@@ -33,7 +33,9 @@ export default function ProductCard({ product }: { product: IProduct }) {
         <p className="text-xs text-slate-400 mt-0.5">By {seller.name}</p>
 
         <div className="mt-5 flex justify-between items-center">
-          <span className="text-xl font-bold text-white">${product.price}</span>
+          <span className="text-xl font-bold text-white">
+            ${product.price.toLocaleString()}
+          </span>
           <Link
             href={`/products/${product._id}`}
             className="px-3.5 py-1.5 bg-amber-400 text-slate-950 text-xs font-bold uppercase tracking-wider rounded-md hover:bg-amber-300 transition"

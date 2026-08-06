@@ -86,7 +86,7 @@ export default function ProductForm({
         </label>
 
         <label className="block text-sm text-slate-300">
-          <span className="mb-2 block font-medium">Price</span>
+          <span className="mb-2 block font-medium">Price ($)</span>
           <input
             name="price"
             type="number"
