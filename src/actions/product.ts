@@ -200,6 +200,14 @@ export async function remove(id: ObjectId) {
 }
 
 async function uploadProductImage(formData: FormData, fallbackUrl?: string) {
+  // the client uploads the file via /api/upload and stores the resulting URL here,
+  // since the raw file input is disabled before submit to avoid re-uploading it
+  const pictureUrl = String(formData.get("pictureUrl") || "").trim();
+
+  if (pictureUrl) {
+    return pictureUrl;
+  }
+
   const imageFile = formData.get("image");
 
   if (imageFile instanceof File && imageFile.size > 0) {
