@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { heading } from "./fonts";
 import heroImage from "../../public/images/handcrafted-haven-hero.jpg";
 import artisanImage from "../../public/images/handcrafted-haven-artisans.jpg";
@@ -30,12 +31,12 @@ export default function Page() {
               local artisans, and promoting sustainable consumption.
             </p>
             <div className="mt-8 mb-15">
-              <a
+              <Link
                 href="/login"
                 className="inline-flex items-center rounded-[5px] bg-[#FFE169] px-8 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-[#FFE169]/30 transition hover:bg-[#FDDD5E]"
               >
                 Start Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -46,7 +47,7 @@ export default function Page() {
           <div className="grid gap-8 lg:grid-cols-2">
             <article className="space-y-5">
               <h2
-                className={`text-3xl font-bold text-[#DBB42C] ${heading.className}`}
+                className={`text-3xl font-bold text-green-bold ${heading.className}`}
               >
                 Artisans
               </h2>
@@ -66,7 +67,7 @@ export default function Page() {
 
             <article className="space-y-5">
               <h2
-                className={`text-3xl font-bold text-[#DBB42C] ${heading.className}`}
+                className={`text-3xl font-bold text-green-bold ${heading.className}`}
               >
                 Customers
               </h2>
@@ -144,7 +145,7 @@ export default function Page() {
                 “As a full-time artisan, I wanted a place where people truly
                 appreciate handmade work. This app made it easy to showcase my
                 products, manage my orders, and connect with customers who value
-                craftsmanship. I`ve seen both my sales and confidence grow.”
+                craftsmanship. I&apos;ve seen both my sales and confidence grow.”
               </p>
               <div className="mt-6 flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1B5E20]/10 text-[#1B5E20]">
@@ -199,12 +200,12 @@ export default function Page() {
             </div>
 
             <div className="flex items-center">
-              <a
+              <Link
                 href="/login"
                 className="inline-flex items-center justify-center rounded-[5px] bg-[#FFE169] px-8 py-4 text-sm font-semibold text-slate-950 shadow-lg shadow-[#FFE169]/30 transition hover:bg-[#FDDD5E]"
               >
                 Start Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>

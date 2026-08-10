@@ -1,6 +1,13 @@
 import ProductCatalog from "@/components/ProductCatalog";
 import { getByFilter } from "@/actions/product";
 import { IProductFilter } from "@/lib/models/product";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Products",
+  description:
+    "Browse handcrafted items from independent artisans. Filter by category, price, and keyword.",
+};
 
 function parseFilter(
   searchParams: Record<string, string | string[] | undefined>,
@@ -49,6 +56,10 @@ export default async function Page({
         <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">
           Products Area
         </p>
+
+        <h1 className="mt-4 mb-8 text-4xl font-bold text-white">
+          Handcrafted Products
+        </h1>
 
         <ProductCatalog products={products} />
       </div>

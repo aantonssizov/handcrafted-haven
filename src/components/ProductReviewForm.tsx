@@ -39,7 +39,11 @@ export default function ProductReviewForm({ productId }: ProductReviewFormProps)
         />
       </label>
 
-      {state ? <p className="text-sm text-amber-400">{state}</p> : null}
+      {state ? (
+        <p role="alert" className="text-sm text-amber-400">
+          {state}
+        </p>
+      ) : null}
 
       <button
         type="submit"

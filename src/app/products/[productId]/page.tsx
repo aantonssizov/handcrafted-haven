@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { deleteProductAction, get } from "@/actions/product";
 import { getByProduct } from "@/actions/product-review";
@@ -7,6 +8,28 @@ import { getSession } from "@/lib/session";
 import { UserRole } from "@/lib/models/roles";
 import { formatCategoryLabel } from "@/lib/models/product-category";
 import StarRating from "@/components/StarRating";
+import { getSellerProfileBySellerId } from "@/actions/seller-profile";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}): Promise<Metadata> {
+  const { productId } = await params;
+  const product = await get(productId);
+
+  if (!product) {
+    return { title: "Product not found" };
+  }
+
+  return {
+    title: product.name,
+    description:
+      product.description ||
+      `${product.name} — a handcrafted ${formatCategoryLabel(product.category)} item on Handcrafted Haven.`,
+  };
+}
 
 export default async function ProductDetailPage({
   params,
@@ -22,6 +45,8 @@ export default async function ProductDetailPage({
 
   const reviews = await getByProduct(productId);
   const session = await getSession();
+  const sellerId = String(product.seller?._id || product.seller);
+  const sellerProfile = await getSellerProfileBySellerId(sellerId);
   const sellerName =
     typeof product.seller === "object" && product.seller?.name
       ? product.seller.name
@@ -37,14 +62,18 @@ export default async function ProductDetailPage({
         <section className="grid gap-8 rounded-3xl border border-white/10 bg-slate-900/70 p-8 lg:grid-cols-[1.2fr_0.8fr]">
           <div>
             {product.pictureUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={product.pictureUrl}
-                alt={product.name}
-                className="h-80 w-full rounded-3xl object-cover"
-              />
+              <div className="relative h-80 w-full overflow-hidden rounded-3xl">
+                <Image
+                  src={product.pictureUrl}
+                  alt={product.name}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  className="object-cover"
+                />
+              </div>
             ) : (
-              <div className="flex h-80 items-center justify-center rounded-3xl border border-dashed border-white/10 bg-slate-950/70 text-slate-500">
+              <div className="flex h-80 items-center justify-center rounded-3xl border border-dashed border-white/10 bg-slate-950/70 text-slate-400">
                 No image available
               </div>
             )}
@@ -65,13 +94,15 @@ export default async function ProductDetailPage({
 
               <div className="mt-4 space-y-2 text-sm text-slate-300">
                 <p>Sold by {sellerName}</p>
-                <Link href={`/seller/${String(product.seller?._id || product.seller)}`} className="inline-flex text-gold-soft hover:text-gold-bold">
-                  View seller profile and other products
-                </Link>
+                {sellerProfile ? (
+                  <Link href={`/seller/${sellerId}`} className="inline-flex text-gold-soft hover:text-gold-bold">
+                    View seller profile and other products
+                  </Link>
+                ) : null}
               </div>
             </div>
 
-            {session.userRole === UserRole.Seller && String(product.seller?._id || product.seller) === String(session.userId) ? (
+            {session.userRole === UserRole.Seller && sellerId === String(session.userId) ? (
               <div className="flex flex-wrap gap-3">
                 <Link href={`/products/${productId}/edit`} className="rounded-2xl border border-gold-soft/40 px-4 py-2 text-sm font-semibold text-gold-soft">
                   Edit product

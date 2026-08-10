@@ -27,7 +27,7 @@ export default function ProductCard({
             className="object-cover group-hover:scale-105 transition duration-300"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-widest text-slate-600">
+          <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-widest text-slate-400">
             No image
           </div>
         )}

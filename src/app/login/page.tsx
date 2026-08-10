@@ -1,4 +1,10 @@
 import LoginForm from "@/components/LoginForm";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign in",
+  description: "Sign in to your Handcrafted Haven account.",
+};
 
 export default function Page() {
   return (

@@ -123,7 +123,7 @@ export default function SellerProfileForm() {
             <p className="mt-2 text-xs text-slate-400">
               PNG, JPG, or WebP. Maximum 2 MB.
             </p>
-            {uploading ? <p className="mt-2 text-sm text-amber-400">Uploading...</p> : null}
+            {uploading ? <p role="status" className="mt-2 text-sm text-amber-400">Uploading...</p> : null}
           </div>
         </div>
       </div>
@@ -133,7 +133,7 @@ export default function SellerProfileForm() {
         <textarea
           name="bio"
           rows={4}
-          className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
+          className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-gold-soft focus:ring-2 focus:ring-gold-soft/40"
           placeholder="Tell buyers about your craft and story"
         />
       </label>
@@ -145,7 +145,11 @@ export default function SellerProfileForm() {
       >
         {pending ? "Saving..." : "Save profile"}
       </button>
-      {state && <p className="text-sm text-slate-300">{state}</p>}
+      {state && (
+        <p role="status" className="text-sm text-slate-300">
+          {state}
+        </p>
+      )}
     </form>
   );
 }
@@ -171,7 +175,7 @@ function Field({
         name={name}
         required={required}
         min={type === "number" ? "0" : undefined}
-        className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
+        className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-gold-soft focus:ring-2 focus:ring-gold-soft/40"
         placeholder={placeholder}
       />
     </label>

@@ -2,6 +2,13 @@ import Link from "next/link";
 import { getAllSellerProfiles } from "@/actions/seller-profile";
 import { getSellerRatings } from "@/actions/product";
 import StarRating from "@/components/StarRating";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Artists",
+  description:
+    "Meet the makers behind the work. Browse seller profiles and discover their handcrafted products.",
+};
 
 export default async function ArtistsPage() {
   const profiles = await getAllSellerProfiles();

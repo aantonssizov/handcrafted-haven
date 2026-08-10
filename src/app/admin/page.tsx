@@ -1,5 +1,11 @@
 import RoleGuard from "@/components/RoleGuard";
 import { UserRole } from "@/lib/models/roles";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin",
+  robots: { index: false },
+};
 
 export default function Page() {
   return (

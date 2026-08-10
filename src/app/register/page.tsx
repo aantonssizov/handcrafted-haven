@@ -1,4 +1,11 @@
 import RegisterForm from "@/components/RegisterForm";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create account",
+  description:
+    "Create a Handcrafted Haven account to buy handmade goods or sell your own craft.",
+};
 
 export default function Page() {
   return (

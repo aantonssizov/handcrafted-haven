@@ -3,6 +3,12 @@ import { verifySession } from "@/lib/dal";
 import { getUser } from "@/actions/user";
 import { logout } from "@/actions/auth";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  robots: { index: false },
+};
 
 export default async function Page() {
   const session = await verifySession();
@@ -14,13 +20,13 @@ export default async function Page() {
         <p className="text-sm uppercase tracking-[0.24em] text-gold-soft">
           Dashboard
         </p>
-        <div className="flex items-baseline justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between">
           <h1 className="mt-3 text-4xl font-bold">Welcome, {user.name}</h1>
 
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <Link
               href={"/dashboard/edit"}
-              className="rounded-2xl border border-gold-soft-500/30 px-5 py-3 text-gold-soft transition hover:bg-gold-soft/10"
+              className="rounded-2xl border border-gold-soft/30 px-5 py-3 text-gold-soft transition hover:bg-gold-soft/10"
             >
               Edit account
             </Link>

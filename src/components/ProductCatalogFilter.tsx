@@ -5,7 +5,7 @@ import {
   formatCategoryLabel,
 } from "@/lib/models/product-category";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 const DEFAULT_MIN_PRICE = 0;
 const DEFAULT_MAX_PRICE = 200;
@@ -14,6 +14,10 @@ export default function ProductCatalogFilter() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const searchId = useId();
+  const categoriesId = useId();
+  const minPriceId = useId();
+  const maxPriceId = useId();
 
   const [minPrice, setMinPrice] = useState(
     Number(searchParams.get("minPrice")) || DEFAULT_MIN_PRICE,
@@ -76,24 +80,32 @@ export default function ProductCatalogFilter() {
     <form onSubmit={handleSubmit}>
       {/* Search */}
       <div className="mb-5">
-        <label className="block text-xs uppercase tracking-wider text-slate-400 mb-2">
+        <label
+          htmlFor={searchId}
+          className="block text-xs uppercase tracking-wider text-slate-400 mb-2"
+        >
           Search
         </label>
         <input
+          id={searchId}
           type="text"
           placeholder="Search products..."
           name="searchQuery"
           defaultValue={searchParams.get("searchQuery") ?? ""}
-          className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400"
+          className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-amber-400"
         />
       </div>
 
       {/* Category */}
       <div className="mb-5">
-        <label className="block text-xs uppercase tracking-wider text-slate-400 mb-2">
+        <label
+          htmlFor={categoriesId}
+          className="block text-xs uppercase tracking-wider text-slate-400 mb-2"
+        >
           Category
         </label>
         <select
+          id={categoriesId}
           name="categories"
           multiple
           defaultValue={searchParams.getAll("categories")}
@@ -110,18 +122,22 @@ export default function ProductCatalogFilter() {
       {/* Price Range */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <label className="text-xs uppercase tracking-wider text-slate-400">
+          <span className="text-xs uppercase tracking-wider text-slate-400">
             Price Range
-          </label>
+          </span>
           <span className="text-sm font-semibold text-amber-400">
             ${minPrice} &ndash; ${maxPrice}
           </span>
         </div>
 
-        <label className="block text-[10px] uppercase tracking-wider text-slate-500 mb-1">
+        <label
+          htmlFor={minPriceId}
+          className="block text-[10px] uppercase tracking-wider text-slate-400 mb-1"
+        >
           Min
         </label>
         <input
+          id={minPriceId}
           type="range"
           min="0"
           max="200"
@@ -132,10 +148,14 @@ export default function ProductCatalogFilter() {
           className="w-full accent-amber-400 bg-slate-950 cursor-pointer mb-3"
         />
 
-        <label className="block text-[10px] uppercase tracking-wider text-slate-500 mb-1">
+        <label
+          htmlFor={maxPriceId}
+          className="block text-[10px] uppercase tracking-wider text-slate-400 mb-1"
+        >
           Max
         </label>
         <input
+          id={maxPriceId}
           type="range"
           min="0"
           max="200"

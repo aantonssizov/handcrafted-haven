@@ -14,9 +14,9 @@ export default function RegisterForm() {
           Join Handcrafted Haven
         </p>
 
-        <h2 className="mt-4 text-3xl font-semibold text-slate-900">
+        <h1 className="mt-4 text-3xl font-semibold text-slate-900">
           Create your account
-        </h2>
+        </h1>
 
         <p className="mt-3 text-sm leading-6 text-slate-600">
           Create an account as a customer or seller.
@@ -25,7 +25,10 @@ export default function RegisterForm() {
 
       <form className="space-y-5" action={action}>
         {state && (
-          <div className="rounded-3xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-700">
+          <div
+            role="alert"
+            className="rounded-3xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-700"
+          >
             {state}
           </div>
         )}

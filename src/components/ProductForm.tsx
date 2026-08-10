@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useId, useRef, useState } from "react";
 import { createProductAction, updateProductAction } from "@/actions/product";
 import {
   ProductCategory,
@@ -28,6 +28,8 @@ export default function ProductForm({
   initialValues,
 }: ProductFormProps) {
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const imageInputId = useId();
+  const imageHelpId = useId();
   const [preview, setPreview] = useState<string | null>(initialValues?.pictureUrl || null);
   const [uploading, setUploading] = useState(false);
 
@@ -139,28 +141,43 @@ export default function ProductForm({
         </label>
       </div>
 
-      <label className="block text-sm text-slate-300">
-        <span className="mb-2 block font-medium">Upload image</span>
+      <div className="block text-sm text-slate-300">
+        <label htmlFor={imageInputId}>
+          <span className="mb-2 block font-medium">Upload image</span>
+        </label>
         <input
+          id={imageInputId}
           ref={fileRef}
           type="file"
           name="image"
           accept="image/*"
           onChange={handleFileChange}
+          aria-describedby={imageHelpId}
           className="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white"
         />
-        <p className="mt-2 text-xs text-slate-400">Choose a new image for this product. Leave it empty to keep the current one.</p>
+        <p id={imageHelpId} className="mt-2 text-xs text-slate-400">
+          Choose a new image for this product. Leave it empty to keep the
+          current one.
+        </p>
         <input type="hidden" name="pictureUrl" defaultValue={initialValues?.pictureUrl || ""} />
 
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview} alt="preview" className="mt-3 h-36 w-full object-cover rounded-lg" />
+          <img src={preview} alt="Selected product image preview" className="mt-3 h-36 w-full object-cover rounded-lg" />
         ) : null}
 
-        {uploading ? <p className="mt-2 text-sm text-amber-400">Uploading...</p> : null}
-      </label>
+        {uploading ? (
+          <p role="status" className="mt-2 text-sm text-amber-400">
+            Uploading...
+          </p>
+        ) : null}
+      </div>
 
-      {state ? <p className="text-sm text-amber-400">{state}</p> : null}
+      {state ? (
+        <p role="alert" className="text-sm text-amber-400">
+          {state}
+        </p>
+      ) : null}
 
       <button
         type="submit"

@@ -5,6 +5,31 @@ import { getAllBySeller } from "@/actions/product";
 import ProductCard from "@/components/ProductCard";
 import StarRating from "@/components/StarRating";
 import { combineProductRatings } from "@/lib/rating";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ sellerId: string }>;
+}): Promise<Metadata> {
+  const { sellerId } = await params;
+  const profile = await getSellerProfileBySellerId(sellerId);
+
+  if (!profile) {
+    return { title: "Seller not found" };
+  }
+
+  const sellerName =
+    typeof profile.seller === "object" && profile.seller?.name
+      ? profile.seller.name
+      : "Featured artist";
+
+  return {
+    title: sellerName,
+    description:
+      profile.bio || `Handcrafted products by ${sellerName} on Handcrafted Haven.`,
+  };
+}
 
 export default async function SellerProfilePage({
   params,
